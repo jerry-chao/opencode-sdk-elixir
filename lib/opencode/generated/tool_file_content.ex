@@ -17,6 +17,6 @@ defmodule OpenCode.Generated.ToolFileContent do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [mime: :string, name: :string, type: {:const, "file"}, uri: :string]
+    [mime: :string, name: {:union, [:string, :null]}, type: {:const, "file"}, uri: :string]
   end
 end

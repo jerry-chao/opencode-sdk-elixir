@@ -3,15 +3,15 @@ defmodule OpenCode.Generated.ConnectionCredentialInfo do
   Provides struct and type for a ConnectionCredentialInfo
   """
 
-  @type t :: %__MODULE__{id: String.t(), label: String.t(), type: String.t()}
+  @type t :: %__MODULE__{id: String.t(), label: String.t(), method: String.t(), type: String.t()}
 
-  defstruct [:id, :label, :type]
+  defstruct [:id, :label, :method, :type]
 
   @doc false
   @spec __fields__(atom) :: keyword
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [id: :string, label: :string, type: {:const, "credential"}]
+    [id: :string, label: :string, method: {:enum, ["key", "oauth"]}, type: {:const, "credential"}]
   end
 end

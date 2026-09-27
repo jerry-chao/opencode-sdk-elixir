@@ -1,0 +1,17 @@
+defmodule OpenCode.Generated.ConfigDirectoryEncoded do
+  @moduledoc """
+  Provides struct and type for a ConfigDirectoryEncoded
+  """
+
+  @type t :: %__MODULE__{path: String.t(), type: String.t()}
+
+  defstruct [:path, :type]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(type \\ :t)
+
+  def __fields__(:t) do
+    [path: :string, type: {:const, "directory"}]
+  end
+end

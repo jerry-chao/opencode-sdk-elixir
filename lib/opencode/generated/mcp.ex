@@ -8,345 +8,241 @@ defmodule OpenCode.Generated.Mcp do
   @doc """
   Add MCP server
 
-  Dynamically add a new Model Context Protocol (MCP) server to the system.
+  Add an MCP server at runtime or replace an existing one, connecting it immediately.
 
   ## Options
 
-    * `directory`
-    * `workspace`
+    * `location`
 
   ## Request Body
 
   **Content Types**: `application/json`
   """
-  @spec mcp_add(body :: map, opts :: keyword) ::
-          {:ok, map}
+  @spec experimental_mcp_add(server :: String.t(), body :: map, opts :: keyword) ::
+          :ok
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()}
-  def mcp_add(body, opts \\ []) do
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def experimental_mcp_add(server, body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
+    query = Keyword.take(opts, [:location])
 
     client.request(%{
-      args: [body: body],
-      call: {OpenCode.Generated.Mcp, :mcp_add},
-      url: "/mcp",
+      args: [server: server, body: body],
+      call: {OpenCode.Generated.Mcp, :experimental_mcp_add},
+      url: "/api/experimental/mcp/#{server}",
       body: body,
-      method: :post,
+      method: :put,
       query: query,
       request: [{"application/json", :map}],
       response: [
-        {200, :map},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}}
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
   @doc """
-  Authenticate MCP OAuth
+  Connect MCP server
 
-  Start OAuth flow and wait for callback (opens browser).
+  Connect an MCP server at runtime, overriding a disabled configuration until restart.
 
   ## Options
 
-    * `directory`
-    * `workspace`
+    * `location`
 
   """
-  @spec mcp_auth_authenticate(name :: String.t(), opts :: keyword) ::
-          {:ok,
-           OpenCode.Generated.MCPStatusConnected.t()
-           | OpenCode.Generated.MCPStatusDisabled.t()
-           | OpenCode.Generated.MCPStatusFailed.t()
-           | OpenCode.Generated.MCPStatusNeedsAuth.t()
-           | OpenCode.Generated.MCPStatusNeedsClientRegistration.t()}
+  @spec experimental_mcp_connect(server :: String.t(), opts :: keyword) ::
+          :ok
           | {:error,
-             OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.McpServerNotFoundError.t()
-             | OpenCode.Generated.McpUnsupportedOAuthError.t()}
-  def mcp_auth_authenticate(name, opts \\ []) do
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.McpServerNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def experimental_mcp_connect(server, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
+    query = Keyword.take(opts, [:location])
 
     client.request(%{
-      args: [name: name],
-      call: {OpenCode.Generated.Mcp, :mcp_auth_authenticate},
-      url: "/mcp/#{name}/auth/authenticate",
+      args: [server: server],
+      call: {OpenCode.Generated.Mcp, :experimental_mcp_connect},
+      url: "/api/experimental/mcp/#{server}/connect",
       method: :post,
       query: query,
       response: [
-        {200,
-         {:union,
-          [
-            {OpenCode.Generated.MCPStatusConnected, :t},
-            {OpenCode.Generated.MCPStatusDisabled, :t},
-            {OpenCode.Generated.MCPStatusFailed, :t},
-            {OpenCode.Generated.MCPStatusNeedsAuth, :t},
-            {OpenCode.Generated.MCPStatusNeedsClientRegistration, :t}
-          ]}},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.InvalidRequestError, :t},
-            {OpenCode.Generated.McpUnsupportedOAuthError, :t}
-          ]}},
-        {404, {OpenCode.Generated.McpServerNotFoundError, :t}}
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.McpServerNotFoundErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
   @doc """
-  Complete MCP OAuth
+  Disconnect MCP server
 
-  Complete OAuth authentication for a Model Context Protocol (MCP) server using the authorization code.
+  Disconnect an MCP server at runtime, removing its tools until reconnected.
 
   ## Options
 
-    * `directory`
-    * `workspace`
+    * `location`
 
-  ## Request Body
-
-  **Content Types**: `application/json`
   """
-  @spec mcp_auth_callback(name :: String.t(), body :: map, opts :: keyword) ::
-          {:ok,
-           OpenCode.Generated.MCPStatusConnected.t()
-           | OpenCode.Generated.MCPStatusDisabled.t()
-           | OpenCode.Generated.MCPStatusFailed.t()
-           | OpenCode.Generated.MCPStatusNeedsAuth.t()
-           | OpenCode.Generated.MCPStatusNeedsClientRegistration.t()}
+  @spec experimental_mcp_disconnect(server :: String.t(), opts :: keyword) ::
+          :ok
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.McpServerNotFoundError.t()}
-  def mcp_auth_callback(name, body, opts \\ []) do
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.McpServerNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def experimental_mcp_disconnect(server, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
+    query = Keyword.take(opts, [:location])
 
     client.request(%{
-      args: [name: name, body: body],
-      call: {OpenCode.Generated.Mcp, :mcp_auth_callback},
-      url: "/mcp/#{name}/auth/callback",
-      body: body,
+      args: [server: server],
+      call: {OpenCode.Generated.Mcp, :experimental_mcp_disconnect},
+      url: "/api/experimental/mcp/#{server}/disconnect",
       method: :post,
       query: query,
-      request: [{"application/json", :map}],
       response: [
-        {200,
-         {:union,
-          [
-            {OpenCode.Generated.MCPStatusConnected, :t},
-            {OpenCode.Generated.MCPStatusDisabled, :t},
-            {OpenCode.Generated.MCPStatusFailed, :t},
-            {OpenCode.Generated.MCPStatusNeedsAuth, :t},
-            {OpenCode.Generated.MCPStatusNeedsClientRegistration, :t}
-          ]}},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.McpServerNotFoundError, :t}}
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.McpServerNotFoundErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
-  @type mcp_auth_remove_200_json_resp :: %{success: true}
-
   @doc """
-  Remove MCP OAuth
+  Remove MCP server
 
-  Remove OAuth credentials for an MCP server.
+  Stop an MCP server and remove it from the runtime set until restart.
 
   ## Options
 
-    * `directory`
-    * `workspace`
+    * `location`
 
   """
-  @spec mcp_auth_remove(name :: String.t(), opts :: keyword) ::
-          {:ok, OpenCode.Generated.Mcp.mcp_auth_remove_200_json_resp()}
+  @spec experimental_mcp_remove(server :: String.t(), opts :: keyword) ::
+          :ok
           | {:error,
-             OpenCode.Generated.BadRequestError.t()
-             | OpenCode.Generated.McpServerNotFoundError.t()}
-  def mcp_auth_remove(name, opts \\ []) do
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.McpServerNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def experimental_mcp_remove(server, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
+    query = Keyword.take(opts, [:location])
 
     client.request(%{
-      args: [name: name],
-      call: {OpenCode.Generated.Mcp, :mcp_auth_remove},
-      url: "/mcp/#{name}/auth",
+      args: [server: server],
+      call: {OpenCode.Generated.Mcp, :experimental_mcp_remove},
+      url: "/api/experimental/mcp/#{server}",
       method: :delete,
       query: query,
       response: [
-        {200, {OpenCode.Generated.Mcp, :mcp_auth_remove_200_json_resp}},
-        {400, {OpenCode.Generated.BadRequestError, :t}},
-        {404, {OpenCode.Generated.McpServerNotFoundError, :t}}
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.McpServerNotFoundErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
-  @type mcp_auth_start_200_json_resp :: %{authorization_url: String.t(), oauth_state: String.t()}
+  @type mcp_list_200_json_resp :: %{
+          data: [OpenCode.Generated.McpServer.t()],
+          location: OpenCode.Generated.LocationPublicRef.t()
+        }
 
   @doc """
-  Start MCP OAuth
+  List MCP servers
 
-  Start OAuth authentication flow for a Model Context Protocol (MCP) server.
+  Retrieve configured MCP servers and their connection status.
 
   ## Options
 
-    * `directory`
-    * `workspace`
+    * `location`
 
   """
-  @spec mcp_auth_start(name :: String.t(), opts :: keyword) ::
-          {:ok, OpenCode.Generated.Mcp.mcp_auth_start_200_json_resp()}
+  @spec mcp_list(opts :: keyword) ::
+          {:ok, OpenCode.Generated.Mcp.mcp_list_200_json_resp()}
           | {:error,
-             OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.McpServerNotFoundError.t()
-             | OpenCode.Generated.McpUnsupportedOAuthError.t()}
-  def mcp_auth_start(name, opts \\ []) do
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def mcp_list(opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [name: name],
-      call: {OpenCode.Generated.Mcp, :mcp_auth_start},
-      url: "/mcp/#{name}/auth",
-      method: :post,
-      query: query,
-      response: [
-        {200, {OpenCode.Generated.Mcp, :mcp_auth_start_200_json_resp}},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.InvalidRequestError, :t},
-            {OpenCode.Generated.McpUnsupportedOAuthError, :t}
-          ]}},
-        {404, {OpenCode.Generated.McpServerNotFoundError, :t}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  post `/mcp/{name}/connect`
-
-  Connect an MCP server.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  """
-  @spec mcp_connect(name :: String.t(), opts :: keyword) ::
-          {:ok, boolean}
-          | {:error,
-             OpenCode.Generated.BadRequestError.t()
-             | OpenCode.Generated.McpServerNotFoundError.t()}
-  def mcp_connect(name, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [name: name],
-      call: {OpenCode.Generated.Mcp, :mcp_connect},
-      url: "/mcp/#{name}/connect",
-      method: :post,
-      query: query,
-      response: [
-        {200, :boolean},
-        {400, {OpenCode.Generated.BadRequestError, :t}},
-        {404, {OpenCode.Generated.McpServerNotFoundError, :t}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  post `/mcp/{name}/disconnect`
-
-  Disconnect an MCP server.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  """
-  @spec mcp_disconnect(name :: String.t(), opts :: keyword) ::
-          {:ok, boolean}
-          | {:error,
-             OpenCode.Generated.BadRequestError.t()
-             | OpenCode.Generated.McpServerNotFoundError.t()}
-  def mcp_disconnect(name, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [name: name],
-      call: {OpenCode.Generated.Mcp, :mcp_disconnect},
-      url: "/mcp/#{name}/disconnect",
-      method: :post,
-      query: query,
-      response: [
-        {200, :boolean},
-        {400, {OpenCode.Generated.BadRequestError, :t}},
-        {404, {OpenCode.Generated.McpServerNotFoundError, :t}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Get MCP status
-
-  Get the status of all Model Context Protocol (MCP) servers.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  """
-  @spec mcp_status(opts :: keyword) ::
-          {:ok, map} | {:error, OpenCode.Generated.BadRequestError.t()}
-  def mcp_status(opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
+    query = Keyword.take(opts, [:location])
 
     client.request(%{
       args: [],
-      call: {OpenCode.Generated.Mcp, :mcp_status},
-      url: "/mcp",
+      call: {OpenCode.Generated.Mcp, :mcp_list},
+      url: "/api/mcp",
       method: :get,
       query: query,
-      response: [{200, :map}, {400, {OpenCode.Generated.BadRequestError, :t}}],
+      response: [
+        {200, {OpenCode.Generated.Mcp, :mcp_list_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @type mcp_resource_catalog_200_json_resp :: %{
+          data: OpenCode.Generated.McpResourceCatalog.t(),
+          location: OpenCode.Generated.LocationPublicRef.t()
+        }
+
+  @doc """
+  List MCP resources
+
+  Retrieve resources and resource templates from connected MCP servers.
+
+  ## Options
+
+    * `location`
+
+  """
+  @spec mcp_resource_catalog(opts :: keyword) ::
+          {:ok, OpenCode.Generated.Mcp.mcp_resource_catalog_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def mcp_resource_catalog(opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:location])
+
+    client.request(%{
+      args: [],
+      call: {OpenCode.Generated.Mcp, :mcp_resource_catalog},
+      url: "/api/mcp/resource",
+      method: :get,
+      query: query,
+      response: [
+        {200, {OpenCode.Generated.Mcp, :mcp_resource_catalog_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}}
+      ],
       opts: opts
     })
   end
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:mcp_auth_remove_200_json_resp) do
-    [success: {:const, true}]
+  def __fields__(:mcp_list_200_json_resp) do
+    [
+      data: [{OpenCode.Generated.McpServer, :t}],
+      location: {OpenCode.Generated.LocationPublicRef, :t}
+    ]
   end
 
-  def __fields__(:mcp_auth_start_200_json_resp) do
-    [authorization_url: :string, oauth_state: :string]
+  def __fields__(:mcp_resource_catalog_200_json_resp) do
+    [
+      data: {OpenCode.Generated.McpResourceCatalog, :t},
+      location: {OpenCode.Generated.LocationPublicRef, :t}
+    ]
   end
 end

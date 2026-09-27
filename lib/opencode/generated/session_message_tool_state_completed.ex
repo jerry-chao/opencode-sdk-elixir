@@ -4,18 +4,15 @@ defmodule OpenCode.Generated.SessionMessageToolStateCompleted do
   """
 
   @type t :: %__MODULE__{
-          attachments: [OpenCode.Generated.PromptFileAttachment.t()] | nil,
           content: [
             OpenCode.Generated.ToolFileContent.t() | OpenCode.Generated.ToolTextContent.t()
           ],
           input: map,
-          output_paths: [String.t()] | nil,
-          result: map | nil,
-          status: String.t(),
-          structured: map
+          metadata: map | nil,
+          status: String.t()
         }
 
-  defstruct [:attachments, :content, :input, :output_paths, :result, :status, :structured]
+  defstruct [:content, :input, :metadata, :status]
 
   @doc false
   @spec __fields__(atom) :: keyword
@@ -23,7 +20,6 @@ defmodule OpenCode.Generated.SessionMessageToolStateCompleted do
 
   def __fields__(:t) do
     [
-      attachments: [{OpenCode.Generated.PromptFileAttachment, :t}],
       content: [
         union: [
           {OpenCode.Generated.ToolFileContent, :t},
@@ -31,10 +27,8 @@ defmodule OpenCode.Generated.SessionMessageToolStateCompleted do
         ]
       ],
       input: :map,
-      output_paths: [:string],
-      result: :map,
-      status: {:const, "completed"},
-      structured: :map
+      metadata: :map,
+      status: {:const, "completed"}
     ]
   end
 end

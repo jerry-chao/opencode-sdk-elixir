@@ -1,0 +1,20 @@
+defmodule OpenCode.Generated.IntegrationCommandAttemptTime do
+  @moduledoc """
+  Provides struct and type for a IntegrationCommandAttemptTime
+  """
+
+  @type t :: %__MODULE__{created: number | String.t(), expires: number | String.t()}
+
+  defstruct [:created, :expires]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(type \\ :t)
+
+  def __fields__(:t) do
+    [
+      created: {:union, [:number, enum: ["Infinity", "-Infinity", "NaN"]]},
+      expires: {:union, [:number, enum: ["Infinity", "-Infinity", "NaN"]]}
+    ]
+  end
+end

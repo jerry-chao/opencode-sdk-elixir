@@ -4,8 +4,8 @@ defmodule OpenCode.Generated.VcsFileStatus do
   """
 
   @type t :: %__MODULE__{
-          additions: number,
-          deletions: number,
+          additions: integer,
+          deletions: integer,
           file: String.t(),
           status: String.t()
         }
@@ -18,8 +18,8 @@ defmodule OpenCode.Generated.VcsFileStatus do
 
   def __fields__(:t) do
     [
-      additions: :number,
-      deletions: :number,
+      additions: :integer,
+      deletions: :integer,
       file: :string,
       status: {:enum, ["added", "deleted", "modified"]}
     ]

@@ -5,189 +5,103 @@ defmodule OpenCode.Generated.Provider do
 
   @default_client OpenCode.Client
 
-  @doc """
-  Get provider auth methods
+  @type provider_get_200_json_resp :: %{
+          data: OpenCode.Generated.ProviderInfo.t(),
+          location: OpenCode.Generated.LocationPublicRef.t()
+        }
 
-  Retrieve available authentication methods for all AI providers.
+  @doc """
+  Get provider
+
+  Retrieve a single AI provider so clients can inspect its availability and endpoint settings.
 
   ## Options
 
-    * `directory`
-    * `workspace`
+    * `location`
 
   """
-  @spec provider_auth(opts :: keyword) ::
-          {:ok, map} | {:error, OpenCode.Generated.BadRequestError.t()}
-  def provider_auth(opts \\ []) do
+  @spec provider_get(providerID :: String.t(), opts :: keyword) ::
+          {:ok, OpenCode.Generated.Provider.provider_get_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.ProviderNotFoundErrorEncoded.t()
+             | OpenCode.Generated.ServiceUnavailableErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def provider_get(providerID, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
+    query = Keyword.take(opts, [:location])
 
     client.request(%{
-      args: [],
-      call: {OpenCode.Generated.Provider, :provider_auth},
-      url: "/provider/auth",
+      args: [providerID: providerID],
+      call: {OpenCode.Generated.Provider, :provider_get},
+      url: "/api/provider/#{providerID}",
       method: :get,
       query: query,
-      response: [{200, :map}, {400, {OpenCode.Generated.BadRequestError, :t}}],
+      response: [
+        {200, {OpenCode.Generated.Provider, :provider_get_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.ProviderNotFoundErrorEncoded, :t}},
+        {503, {OpenCode.Generated.ServiceUnavailableErrorEncoded, :t}}
+      ],
       opts: opts
     })
   end
 
   @type provider_list_200_json_resp :: %{
-          all: [OpenCode.Generated.Provider.t()],
-          connected: [String.t()],
-          default: map
+          data: [OpenCode.Generated.ProviderInfo.t()],
+          location: OpenCode.Generated.LocationPublicRef.t()
         }
 
   @doc """
   List providers
 
-  Get a list of all available AI providers, including both available and connected ones.
+  Retrieve active AI providers so clients can show provider availability and configuration.
 
   ## Options
 
-    * `directory`
-    * `workspace`
+    * `location`
 
   """
   @spec provider_list(opts :: keyword) ::
           {:ok, OpenCode.Generated.Provider.provider_list_200_json_resp()}
-          | {:error, OpenCode.Generated.BadRequestError.t()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.ServiceUnavailableErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
   def provider_list(opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
+    query = Keyword.take(opts, [:location])
 
     client.request(%{
       args: [],
       call: {OpenCode.Generated.Provider, :provider_list},
-      url: "/provider",
+      url: "/api/provider",
       method: :get,
       query: query,
       response: [
         {200, {OpenCode.Generated.Provider, :provider_list_200_json_resp}},
-        {400, {OpenCode.Generated.BadRequestError, :t}}
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {503, {OpenCode.Generated.ServiceUnavailableErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
-
-  @doc """
-  Start OAuth authorization
-
-  Start the OAuth authorization flow for a provider.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  ## Request Body
-
-  **Content Types**: `application/json`
-  """
-  @spec provider_oauth_authorize(providerID :: String.t(), body :: map, opts :: keyword) ::
-          {:ok, OpenCode.Generated.ProviderAuthAuthorization.t()}
-          | {:error,
-             OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.ProviderAuthError1.t()}
-  def provider_oauth_authorize(providerID, body, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [providerID: providerID, body: body],
-      call: {OpenCode.Generated.Provider, :provider_oauth_authorize},
-      url: "/provider/#{providerID}/oauth/authorize",
-      body: body,
-      method: :post,
-      query: query,
-      request: [{"application/json", :map}],
-      response: [
-        {200, {OpenCode.Generated.ProviderAuthAuthorization, :t}},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.InvalidRequestError, :t},
-            {OpenCode.Generated.ProviderAuthError1, :t}
-          ]}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Handle OAuth callback
-
-  Handle the OAuth callback from a provider after user authorization.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  ## Request Body
-
-  **Content Types**: `application/json`
-  """
-  @spec provider_oauth_callback(providerID :: String.t(), body :: map, opts :: keyword) ::
-          {:ok, boolean}
-          | {:error,
-             OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.ProviderAuthError1.t()}
-  def provider_oauth_callback(providerID, body, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [providerID: providerID, body: body],
-      call: {OpenCode.Generated.Provider, :provider_oauth_callback},
-      url: "/provider/#{providerID}/oauth/callback",
-      body: body,
-      method: :post,
-      query: query,
-      request: [{"application/json", :map}],
-      response: [
-        {200, :boolean},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.InvalidRequestError, :t},
-            {OpenCode.Generated.ProviderAuthError1, :t}
-          ]}}
-      ],
-      opts: opts
-    })
-  end
-
-  @type t :: %__MODULE__{
-          env: [String.t()],
-          id: String.t(),
-          key: String.t() | nil,
-          models: map,
-          name: String.t(),
-          options: map,
-          source: String.t()
-        }
-
-  defstruct [:env, :id, :key, :models, :name, :options, :source]
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(type \\ :t)
-
-  def __fields__(:provider_list_200_json_resp) do
-    [all: [{OpenCode.Generated.Provider, :t}], connected: [:string], default: :map]
+  def __fields__(:provider_get_200_json_resp) do
+    [
+      data: {OpenCode.Generated.ProviderInfo, :t},
+      location: {OpenCode.Generated.LocationPublicRef, :t}
+    ]
   end
 
-  def __fields__(:t) do
+  def __fields__(:provider_list_200_json_resp) do
     [
-      env: [:string],
-      id: :string,
-      key: :string,
-      models: :map,
-      name: :string,
-      options: :map,
-      source: {:enum, ["env", "config", "custom", "api"]}
+      data: [{OpenCode.Generated.ProviderInfo, :t}],
+      location: {OpenCode.Generated.LocationPublicRef, :t}
     ]
   end
 end

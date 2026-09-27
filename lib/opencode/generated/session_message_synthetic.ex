@@ -4,15 +4,15 @@ defmodule OpenCode.Generated.SessionMessageSynthetic do
   """
 
   @type t :: %__MODULE__{
+          description: String.t() | nil,
           id: String.t(),
           metadata: map | nil,
-          session_id: String.t(),
           text: String.t(),
           time: OpenCode.Generated.SessionMessageSyntheticTime.t(),
           type: String.t()
         }
 
-  defstruct [:id, :metadata, :session_id, :text, :time, :type]
+  defstruct [:description, :id, :metadata, :text, :time, :type]
 
   @doc false
   @spec __fields__(atom) :: keyword
@@ -20,9 +20,9 @@ defmodule OpenCode.Generated.SessionMessageSynthetic do
 
   def __fields__(:t) do
     [
+      description: :string,
       id: :string,
       metadata: :map,
-      session_id: :string,
       text: :string,
       time: {OpenCode.Generated.SessionMessageSyntheticTime, :t},
       type: {:const, "synthetic"}

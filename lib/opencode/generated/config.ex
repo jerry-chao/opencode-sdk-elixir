@@ -8,239 +8,104 @@ defmodule OpenCode.Generated.Config do
   @doc """
   Get configuration
 
-  Retrieve the current OpenCode configuration settings and preferences.
+  Return configuration documents and discovery sources for the requested location, from lowest to highest priority.
 
   ## Options
 
-    * `directory`
-    * `workspace`
+    * `location`
 
   """
   @spec config_get(opts :: keyword) ::
-          {:ok, OpenCode.Generated.Config.t()} | {:error, OpenCode.Generated.BadRequestError.t()}
+          {:ok,
+           [
+             OpenCode.Generated.ConfigDirectoryEncoded.t()
+             | OpenCode.Generated.ConfigDocumentEncoded.t()
+           ]}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
   def config_get(opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
+    query = Keyword.take(opts, [:location])
 
     client.request(%{
       args: [],
       call: {OpenCode.Generated.Config, :config_get},
-      url: "/config",
+      url: "/api/config",
       method: :get,
       query: query,
       response: [
-        {200, {OpenCode.Generated.Config, :t}},
-        {400, {OpenCode.Generated.BadRequestError, :t}}
+        {200,
+         [
+           union: [
+             {OpenCode.Generated.ConfigDirectoryEncoded, :t},
+             {OpenCode.Generated.ConfigDocumentEncoded, :t}
+           ]
+         ]},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
-  @type config_providers_200_json_resp :: %{
-          default: map,
-          providers: [OpenCode.Generated.Provider.t()]
-        }
-
   @doc """
-  List config providers
+  List available shells
 
-  Get a list of all configured AI providers and their default models.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
+  Return shells available to terminal and agent execution.
   """
-  @spec config_providers(opts :: keyword) ::
-          {:ok, OpenCode.Generated.Config.config_providers_200_json_resp()}
-          | {:error, OpenCode.Generated.BadRequestError.t()}
-  def config_providers(opts \\ []) do
+  @spec config_shells(opts :: keyword) ::
+          {:ok, [OpenCode.Generated.ConfigShellOption.t()]}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def config_shells(opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
       args: [],
-      call: {OpenCode.Generated.Config, :config_providers},
-      url: "/config/providers",
+      call: {OpenCode.Generated.Config, :config_shells},
+      url: "/api/config/shell",
       method: :get,
-      query: query,
       response: [
-        {200, {OpenCode.Generated.Config, :config_providers_200_json_resp}},
-        {400, {OpenCode.Generated.BadRequestError, :t}}
+        {200, [{OpenCode.Generated.ConfigShellOption, :t}]},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
   @doc """
-  Update configuration
+  Update global configuration
 
-  Update OpenCode configuration settings and preferences.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
+  Patch supported fields in the highest-precedence global configuration document.
 
   ## Request Body
 
   **Content Types**: `application/json`
   """
-  @spec config_update(body :: OpenCode.Generated.Config.t(), opts :: keyword) ::
-          {:ok, OpenCode.Generated.Config.t()}
+  @spec experimental_config_update(body :: OpenCode.Generated.ConfigPatch.t(), opts :: keyword) ::
+          :ok
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()}
-  def config_update(body, opts \\ []) do
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def experimental_config_update(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
       args: [body: body],
-      call: {OpenCode.Generated.Config, :config_update},
-      url: "/config",
+      call: {OpenCode.Generated.Config, :experimental_config_update},
+      url: "/api/experimental/config",
       body: body,
       method: :patch,
-      query: query,
-      request: [{"application/json", {OpenCode.Generated.Config, :t}}],
+      request: [{"application/json", {OpenCode.Generated.ConfigPatch, :t}}],
       response: [
-        {200, {OpenCode.Generated.Config, :t}},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}}
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}}
       ],
       opts: opts
     })
-  end
-
-  @type t :: %__MODULE__{
-          agent: OpenCode.Generated.ConfigAgent.t() | nil,
-          attachment: OpenCode.Generated.AttachmentConfig.t() | nil,
-          autoshare: boolean | nil,
-          autoupdate: boolean | String.t() | nil,
-          command: map | nil,
-          compaction: OpenCode.Generated.ConfigCompaction.t() | nil,
-          default_agent: String.t() | nil,
-          disabled_providers: [String.t()] | nil,
-          enabled_providers: [String.t()] | nil,
-          enterprise: OpenCode.Generated.ConfigEnterprise.t() | nil,
-          experimental: OpenCode.Generated.ConfigExperimental.t() | nil,
-          formatter: boolean | map | nil,
-          instructions: [String.t()] | nil,
-          layout: String.t() | nil,
-          log_level: String.t() | nil,
-          lsp: boolean | map | nil,
-          mcp: map | nil,
-          mode: OpenCode.Generated.ConfigMode.t() | nil,
-          model: String.t() | nil,
-          permission: map | String.t() | nil,
-          plugin: [String.t() | [any]] | nil,
-          provider: map | nil,
-          reference: map | nil,
-          references: map | nil,
-          schema: String.t() | nil,
-          server: OpenCode.Generated.ServerConfig.t() | nil,
-          share: String.t() | nil,
-          shell: String.t() | nil,
-          skills: OpenCode.Generated.ConfigSkills.t() | nil,
-          small_model: String.t() | nil,
-          snapshot: boolean | nil,
-          subagent_depth: integer | nil,
-          tool_output: OpenCode.Generated.ConfigToolOutput.t() | nil,
-          tools: map | nil,
-          username: String.t() | nil,
-          watcher: OpenCode.Generated.ConfigWatcher.t() | nil
-        }
-
-  defstruct [
-    :agent,
-    :attachment,
-    :autoshare,
-    :autoupdate,
-    :command,
-    :compaction,
-    :default_agent,
-    :disabled_providers,
-    :enabled_providers,
-    :enterprise,
-    :experimental,
-    :formatter,
-    :instructions,
-    :layout,
-    :log_level,
-    :lsp,
-    :mcp,
-    :mode,
-    :model,
-    :permission,
-    :plugin,
-    :provider,
-    :reference,
-    :references,
-    :schema,
-    :server,
-    :share,
-    :shell,
-    :skills,
-    :small_model,
-    :snapshot,
-    :subagent_depth,
-    :tool_output,
-    :tools,
-    :username,
-    :watcher
-  ]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(type \\ :t)
-
-  def __fields__(:config_providers_200_json_resp) do
-    [default: :map, providers: [{OpenCode.Generated.Provider, :t}]]
-  end
-
-  def __fields__(:t) do
-    [
-      agent: {OpenCode.Generated.ConfigAgent, :t},
-      attachment: {OpenCode.Generated.AttachmentConfig, :t},
-      autoshare: :boolean,
-      autoupdate: {:union, [:boolean, const: "notify"]},
-      command: :map,
-      compaction: {OpenCode.Generated.ConfigCompaction, :t},
-      default_agent: :string,
-      disabled_providers: [:string],
-      enabled_providers: [:string],
-      enterprise: {OpenCode.Generated.ConfigEnterprise, :t},
-      experimental: {OpenCode.Generated.ConfigExperimental, :t},
-      formatter: {:union, [:boolean, :map]},
-      instructions: [:string],
-      layout: {:enum, ["auto", "stretch"]},
-      log_level: {:enum, ["DEBUG", "INFO", "WARN", "ERROR"]},
-      lsp: {:union, [:boolean, :map]},
-      mcp: :map,
-      mode: {OpenCode.Generated.ConfigMode, :t},
-      model: :string,
-      permission: {:union, [:map, enum: ["ask", "allow", "deny"]]},
-      plugin: [union: [:string, [:unknown]]],
-      provider: :map,
-      reference: :map,
-      references: :map,
-      schema: :string,
-      server: {OpenCode.Generated.ServerConfig, :t},
-      share: {:enum, ["manual", "auto", "disabled"]},
-      shell: :string,
-      skills: {OpenCode.Generated.ConfigSkills, :t},
-      small_model: :string,
-      snapshot: :boolean,
-      subagent_depth: :integer,
-      tool_output: {OpenCode.Generated.ConfigToolOutput, :t},
-      tools: :map,
-      username: :string,
-      watcher: {OpenCode.Generated.ConfigWatcher, :t}
-    ]
   end
 end

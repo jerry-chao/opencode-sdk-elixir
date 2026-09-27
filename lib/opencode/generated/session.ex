@@ -5,399 +5,653 @@ defmodule OpenCode.Generated.Session do
 
   @default_client OpenCode.Client
 
-  @doc """
-  delete `/session/{sessionID}/message/{messageID}/part/{partID}`
-
-  Delete a part from a message.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  """
-  @spec part_delete(
-          sessionID :: String.t(),
-          messageID :: String.t(),
-          partID :: String.t(),
-          opts :: keyword
-        ) ::
-          {:ok, boolean}
-          | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()}
-  def part_delete(sessionID, messageID, partID, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [sessionID: sessionID, messageID: messageID, partID: partID],
-      call: {OpenCode.Generated.Session, :part_delete},
-      url: "/session/#{sessionID}/message/#{messageID}/part/#{partID}",
-      method: :delete,
-      query: query,
-      response: [
-        {200, :boolean},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  patch `/session/{sessionID}/message/{messageID}/part/{partID}`
-
-  Update a part in a message.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  ## Request Body
-
-  **Content Types**: `application/json`
-  """
-  @spec part_update(
-          sessionID :: String.t(),
-          messageID :: String.t(),
-          partID :: String.t(),
-          body ::
-            OpenCode.Generated.AgentPart.t()
-            | OpenCode.Generated.CompactionPart.t()
-            | OpenCode.Generated.FilePart.t()
-            | OpenCode.Generated.PatchPart.t()
-            | OpenCode.Generated.ReasoningPart.t()
-            | OpenCode.Generated.RetryPart.t()
-            | OpenCode.Generated.SnapshotPart.t()
-            | OpenCode.Generated.StepFinishPart.t()
-            | OpenCode.Generated.StepStartPart.t()
-            | OpenCode.Generated.SubtaskPart.t()
-            | OpenCode.Generated.TextPart.t()
-            | OpenCode.Generated.ToolPart.t(),
-          opts :: keyword
-        ) ::
-          {:ok,
-           OpenCode.Generated.AgentPart.t()
-           | OpenCode.Generated.CompactionPart.t()
-           | OpenCode.Generated.FilePart.t()
-           | OpenCode.Generated.PatchPart.t()
-           | OpenCode.Generated.ReasoningPart.t()
-           | OpenCode.Generated.RetryPart.t()
-           | OpenCode.Generated.SnapshotPart.t()
-           | OpenCode.Generated.StepFinishPart.t()
-           | OpenCode.Generated.StepStartPart.t()
-           | OpenCode.Generated.SubtaskPart.t()
-           | OpenCode.Generated.TextPart.t()
-           | OpenCode.Generated.ToolPart.t()}
-          | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()}
-  def part_update(sessionID, messageID, partID, body, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [sessionID: sessionID, messageID: messageID, partID: partID, body: body],
-      call: {OpenCode.Generated.Session, :part_update},
-      url: "/session/#{sessionID}/message/#{messageID}/part/#{partID}",
-      body: body,
-      method: :patch,
-      query: query,
-      request: [
-        {"application/json",
-         {:union,
-          [
-            {OpenCode.Generated.AgentPart, :t},
-            {OpenCode.Generated.CompactionPart, :t},
-            {OpenCode.Generated.FilePart, :t},
-            {OpenCode.Generated.PatchPart, :t},
-            {OpenCode.Generated.ReasoningPart, :t},
-            {OpenCode.Generated.RetryPart, :t},
-            {OpenCode.Generated.SnapshotPart, :t},
-            {OpenCode.Generated.StepFinishPart, :t},
-            {OpenCode.Generated.StepStartPart, :t},
-            {OpenCode.Generated.SubtaskPart, :t},
-            {OpenCode.Generated.TextPart, :t},
-            {OpenCode.Generated.ToolPart, :t}
-          ]}}
-      ],
-      response: [
-        {200,
-         {:union,
-          [
-            {OpenCode.Generated.AgentPart, :t},
-            {OpenCode.Generated.CompactionPart, :t},
-            {OpenCode.Generated.FilePart, :t},
-            {OpenCode.Generated.PatchPart, :t},
-            {OpenCode.Generated.ReasoningPart, :t},
-            {OpenCode.Generated.RetryPart, :t},
-            {OpenCode.Generated.SnapshotPart, :t},
-            {OpenCode.Generated.StepFinishPart, :t},
-            {OpenCode.Generated.StepStartPart, :t},
-            {OpenCode.Generated.SubtaskPart, :t},
-            {OpenCode.Generated.TextPart, :t},
-            {OpenCode.Generated.ToolPart, :t}
-          ]}},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Respond to permission
-
-  Approve or deny a permission request from the AI assistant.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  ## Request Body
-
-  **Content Types**: `application/json`
-  """
-  @spec permission_respond(
-          sessionID :: String.t(),
-          permissionID :: String.t(),
-          body :: map,
-          opts :: keyword
-        ) ::
-          {:ok, boolean}
-          | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()
-             | OpenCode.Generated.PermissionNotFoundError.t()}
-  def permission_respond(sessionID, permissionID, body, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [sessionID: sessionID, permissionID: permissionID, body: body],
-      call: {OpenCode.Generated.Session, :permission_respond},
-      url: "/session/#{sessionID}/permissions/#{permissionID}",
-      body: body,
-      method: :post,
-      query: query,
-      request: [{"application/json", :map}],
-      response: [
-        {200, :boolean},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404,
-         {:union,
-          [
-            {OpenCode.Generated.NotFoundError, :t},
-            {OpenCode.Generated.PermissionNotFoundError, :t}
-          ]}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Abort session
-
-  Abort an active session and stop any ongoing AI processing or command execution.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  """
-  @spec session_abort(sessionID :: String.t(), opts :: keyword) ::
-          {:ok, boolean}
-          | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()}
-  def session_abort(sessionID, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [sessionID: sessionID],
-      call: {OpenCode.Generated.Session, :session_abort},
-      url: "/session/#{sessionID}/abort",
-      method: :post,
-      query: query,
-      response: [
-        {200, :boolean},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Get session children
-
-  Retrieve all child sessions that were forked from the specified parent session.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  """
-  @spec session_children(sessionID :: String.t(), opts :: keyword) ::
-          {:ok, [OpenCode.Generated.Session.t()]}
-          | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()}
-  def session_children(sessionID, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [sessionID: sessionID],
-      call: {OpenCode.Generated.Session, :session_children},
-      url: "/session/#{sessionID}/children",
-      method: :get,
-      query: query,
-      response: [
-        {200, [{OpenCode.Generated.Session, :t}]},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}}
-      ],
-      opts: opts
-    })
-  end
-
-  @type session_command_200_json_resp :: %{
-          info: OpenCode.Generated.AssistantMessage.t(),
-          parts: [
-            OpenCode.Generated.AgentPart.t()
-            | OpenCode.Generated.CompactionPart.t()
-            | OpenCode.Generated.FilePart.t()
-            | OpenCode.Generated.PatchPart.t()
-            | OpenCode.Generated.ReasoningPart.t()
-            | OpenCode.Generated.RetryPart.t()
-            | OpenCode.Generated.SnapshotPart.t()
-            | OpenCode.Generated.StepFinishPart.t()
-            | OpenCode.Generated.StepStartPart.t()
-            | OpenCode.Generated.SubtaskPart.t()
-            | OpenCode.Generated.TextPart.t()
-            | OpenCode.Generated.ToolPart.t()
-          ]
+  @type experimental_session_export_200_json_resp :: %{
+          data: OpenCode.Generated.SessionTransferData.t()
         }
 
   @doc """
-  Send command
+  Export session
 
-  Send a new command to a session for execution by the AI assistant.
+  Export a complete projected session transcript.
 
   ## Options
 
-    * `directory`
-    * `workspace`
+    * `sanitize`
+
+  """
+  @spec experimental_session_export(sessionID :: String.t(), opts :: keyword) ::
+          {:ok, OpenCode.Generated.Session.experimental_session_export_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()
+             | OpenCode.Generated.UnknownErrorEncoded.t()}
+  def experimental_session_export(sessionID, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:sanitize])
+
+    client.request(%{
+      args: [sessionID: sessionID],
+      call: {OpenCode.Generated.Session, :experimental_session_export},
+      url: "/api/experimental/session/#{sessionID}/export",
+      method: :get,
+      query: query,
+      response: [
+        {200, {OpenCode.Generated.Session, :experimental_session_export_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}},
+        {500, {OpenCode.Generated.UnknownErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @type experimental_session_import_200_json_resp :: %{data: OpenCode.Generated.SessionInfo.t()}
+
+  @doc """
+  Import session
+
+  Import a projected session transcript at the requested location. If parentID is supplied, the parent session must already exist; import parents before children.
+
+  ## Request Body
+
+  **Content Types**: `application/json`
+  """
+  @spec experimental_session_import(body :: map, opts :: keyword) ::
+          {:ok, OpenCode.Generated.Session.experimental_session_import_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.ConflictErrorEncoded.t()
+             | OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def experimental_session_import(body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [body: body],
+      call: {OpenCode.Generated.Session, :experimental_session_import},
+      url: "/api/experimental/session/import",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {200, {OpenCode.Generated.Session, :experimental_session_import_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}},
+        {409, {OpenCode.Generated.ConflictErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @type experimental_session_instructions_entry_list_200_json_resp :: %{
+          data: [OpenCode.Generated.InstructionEntryInfo.t()]
+        }
+
+  @doc """
+  List instruction entries
+
+  List API-managed instruction entries attached to the session.
+  """
+  @spec experimental_session_instructions_entry_list(sessionID :: String.t(), opts :: keyword) ::
+          {:ok,
+           OpenCode.Generated.Session.experimental_session_instructions_entry_list_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def experimental_session_instructions_entry_list(sessionID, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID],
+      call: {OpenCode.Generated.Session, :experimental_session_instructions_entry_list},
+      url: "/api/experimental/session/#{sessionID}/instructions/entries",
+      method: :get,
+      response: [
+        {200,
+         {OpenCode.Generated.Session, :experimental_session_instructions_entry_list_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Put instruction entry
+
+  Attach or replace one durable instruction entry. Changes announce as updates at the next step boundary.
+
+  ## Request Body
+
+  **Content Types**: `application/json`
+  """
+  @spec experimental_session_instructions_entry_put(
+          sessionID :: String.t(),
+          key :: String.t(),
+          body :: map,
+          opts :: keyword
+        ) ::
+          :ok
+          | {:error,
+             OpenCode.Generated.InstructionEntryValueTooLargeErrorEncoded.t()
+             | OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def experimental_session_instructions_entry_put(sessionID, key, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID, key: key, body: body],
+      call: {OpenCode.Generated.Session, :experimental_session_instructions_entry_put},
+      url: "/api/experimental/session/#{sessionID}/instructions/entries/#{key}",
+      body: body,
+      method: :put,
+      request: [{"application/json", :map}],
+      response: [
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}},
+        {413, {OpenCode.Generated.InstructionEntryValueTooLargeErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Remove instruction entry
+
+  Remove one instruction entry; the removal is announced to the model at the next step boundary.
+  """
+  @spec experimental_session_instructions_entry_remove(
+          sessionID :: String.t(),
+          key :: String.t(),
+          opts :: keyword
+        ) ::
+          :ok
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def experimental_session_instructions_entry_remove(sessionID, key, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID, key: key],
+      call: {OpenCode.Generated.Session, :experimental_session_instructions_entry_remove},
+      url: "/api/experimental/session/#{sessionID}/instructions/entries/#{key}",
+      method: :delete,
+      response: [
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Activate skill
+
+  Activate a skill for a session by appending a skill message and resuming execution.
+
+  ## Request Body
+
+  **Content Types**: `application/json`
+  """
+  @spec experimental_session_skill(sessionID :: String.t(), body :: map, opts :: keyword) ::
+          :ok
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.SkillNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def experimental_session_skill(sessionID, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID, body: body],
+      call: {OpenCode.Generated.Session, :experimental_session_skill},
+      url: "/api/experimental/session/#{sessionID}/skill",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404,
+         {:union,
+          [
+            {OpenCode.Generated.SessionNotFoundErrorEncoded, :t},
+            {OpenCode.Generated.SkillNotFoundErrorEncoded, :t}
+          ]}}
+      ],
+      opts: opts
+    })
+  end
+
+  @type experimental_session_stats_200_json_resp :: %{
+          data: OpenCode.Generated.SessionStatsInfo.t()
+        }
+
+  @doc """
+  Get session statistics
+
+  Aggregate local session activity, usage, and tool reliability for a time range.
+
+  ## Options
+
+    * `from`
+    * `to`
+    * `project`
+    * `timezone`
+    * `tools`
+
+  """
+  @spec experimental_session_stats(opts :: keyword) ::
+          {:ok, OpenCode.Generated.Session.experimental_session_stats_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def experimental_session_stats(opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:from, :project, :timezone, :to, :tools])
+
+    client.request(%{
+      args: [],
+      call: {OpenCode.Generated.Session, :experimental_session_stats},
+      url: "/api/experimental/session/stats",
+      method: :get,
+      query: query,
+      response: [
+        {200, {OpenCode.Generated.Session, :experimental_session_stats_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Wait for session
+
+  Wait for a session agent loop to become idle.
+  """
+  @spec experimental_session_wait(sessionID :: String.t(), opts :: keyword) ::
+          :ok
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.ServiceUnavailableErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def experimental_session_wait(sessionID, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID],
+      call: {OpenCode.Generated.Session, :experimental_session_wait},
+      url: "/api/experimental/session/#{sessionID}/wait",
+      method: :post,
+      response: [
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}},
+        {503, {OpenCode.Generated.ServiceUnavailableErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @type session_active_200_json_resp :: %{data: map}
+
+  @doc """
+  List active sessions
+
+  Retrieve foreground Session drains currently owned by this OpenCode process. Sessions absent from the result are inactive.
+  """
+  @spec session_active(opts :: keyword) ::
+          {:ok, OpenCode.Generated.Session.session_active_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_active(opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [],
+      call: {OpenCode.Generated.Session, :session_active},
+      url: "/api/session/active",
+      method: :get,
+      response: [
+        {200, {OpenCode.Generated.Session, :session_active_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Background blocking session tools
+
+  Move active foreground backgroundable tools for this session into background observation. Idle requests are a no-op.
+  """
+  @spec session_background(sessionID :: String.t(), opts :: keyword) ::
+          :ok
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_background(sessionID, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID],
+      call: {OpenCode.Generated.Session, :session_background},
+      url: "/api/session/#{sessionID}/background",
+      method: :post,
+      response: [
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Run command
+
+  Execute a slash command callback immediately.
 
   ## Request Body
 
   **Content Types**: `application/json`
   """
   @spec session_command(sessionID :: String.t(), body :: map, opts :: keyword) ::
-          {:ok, OpenCode.Generated.Session.session_command_200_json_resp()}
+          :ok
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()}
+             OpenCode.Generated.CommandExecutionErrorEncoded.t()
+             | OpenCode.Generated.CommandNotFoundErrorEncoded.t()
+             | OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
   def session_command(sessionID, body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
       args: [sessionID: sessionID, body: body],
       call: {OpenCode.Generated.Session, :session_command},
-      url: "/session/#{sessionID}/command",
+      url: "/api/session/#{sessionID}/command",
       body: body,
       method: :post,
-      query: query,
       request: [{"application/json", :map}],
       response: [
-        {200, {OpenCode.Generated.Session, :session_command_200_json_resp}},
-        {400,
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404,
          {:union,
           [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
+            {OpenCode.Generated.CommandNotFoundErrorEncoded, :t},
+            {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}
           ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}}
+        {500, {OpenCode.Generated.CommandExecutionErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
+  @type session_compact_200_json_resp :: %{data: OpenCode.Generated.SessionInboxCompaction.t()}
+
+  @doc """
+  Compact session
+
+  Durably admit a session compaction request. Steers by default: it runs at the next step boundary instead of waiting behind queued prompts.
+
+  ## Request Body
+
+  **Content Types**: `application/json`
+  """
+  @spec session_compact(sessionID :: String.t(), body :: map, opts :: keyword) ::
+          {:ok, OpenCode.Generated.Session.session_compact_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.ConflictErrorEncoded.t()
+             | OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_compact(sessionID, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID, body: body],
+      call: {OpenCode.Generated.Session, :session_compact},
+      url: "/api/session/#{sessionID}/compact",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {200, {OpenCode.Generated.Session, :session_compact_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}},
+        {409, {OpenCode.Generated.ConflictErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @type session_context_200_json_resp :: %{
+          data: [
+            map
+            | OpenCode.Generated.SessionMessageAgentSelected.t()
+            | OpenCode.Generated.SessionMessageAssistant.t()
+            | OpenCode.Generated.SessionMessageIdle.t()
+            | OpenCode.Generated.SessionMessageLocationSwitched.t()
+            | OpenCode.Generated.SessionMessageModelSelected.t()
+            | OpenCode.Generated.SessionMessageShell.t()
+            | OpenCode.Generated.SessionMessageSkill.t()
+            | OpenCode.Generated.SessionMessageSynthetic.t()
+            | OpenCode.Generated.SessionMessageSystem.t()
+            | OpenCode.Generated.SessionMessageUser.t()
+          ]
+        }
+
+  @doc """
+  Get session context
+
+  Retrieve the active context messages for a session (all messages after the last compaction).
+  """
+  @spec session_context(sessionID :: String.t(), opts :: keyword) ::
+          {:ok, OpenCode.Generated.Session.session_context_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()
+             | OpenCode.Generated.UnknownErrorEncoded.t()}
+  def session_context(sessionID, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID],
+      call: {OpenCode.Generated.Session, :session_context},
+      url: "/api/session/#{sessionID}/context",
+      method: :get,
+      response: [
+        {200, {OpenCode.Generated.Session, :session_context_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}},
+        {500, {OpenCode.Generated.UnknownErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @type session_create_200_json_resp :: %{data: OpenCode.Generated.SessionInfo.t()}
+
   @doc """
   Create session
 
-  Create a new OpenCode session for interacting with AI assistants and managing conversations.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
+  Create a session at the requested location.
 
   ## Request Body
 
   **Content Types**: `application/json`
   """
   @spec session_create(body :: map, opts :: keyword) ::
-          {:ok, OpenCode.Generated.Session.t()}
+          {:ok, OpenCode.Generated.Session.session_create_200_json_resp()}
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()}
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
   def session_create(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
       args: [body: body],
       call: {OpenCode.Generated.Session, :session_create},
-      url: "/session",
+      url: "/api/session",
       body: body,
       method: :post,
-      query: query,
       request: [{"application/json", :map}],
       response: [
-        {200, {OpenCode.Generated.Session, :t}},
-        {400,
+        {200, {OpenCode.Generated.Session, :session_create_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @type session_diff_200_json_resp :: %{data: [OpenCode.Generated.FileDiffInfo.t()]}
+
+  @doc """
+  Diff session turns
+
+  Structured per-file diffs of the files a turn changed. A turn runs from the first prompt after the session was last idle until its next idle marker, so prompts steered in while it was busy belong to the same turn; `to` extends the range through a later turn. Compares the range's first recorded snapshot with its last; a step still running in the active session compares against the working copy. Ranges that span a location change are rejected. In sessions without any idle marker, a prompt's turn spans until the next user message.
+
+  ## Options
+
+    * `from`
+    * `to`
+    * `context`
+
+  """
+  @spec session_diff(sessionID :: String.t(), opts :: keyword) ::
+          {:ok, OpenCode.Generated.Session.session_diff_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.MessageNotFoundErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()
+             | OpenCode.Generated.UnknownErrorEncoded.t()}
+  def session_diff(sessionID, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:context, :from, :to])
+
+    client.request(%{
+      args: [sessionID: sessionID],
+      call: {OpenCode.Generated.Session, :session_diff},
+      url: "/api/session/#{sessionID}/diff",
+      method: :get,
+      query: query,
+      response: [
+        {200, {OpenCode.Generated.Session, :session_diff_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404,
          {:union,
           [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
+            {OpenCode.Generated.MessageNotFoundErrorEncoded, :t},
+            {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}
+          ]}},
+        {500, {OpenCode.Generated.UnknownErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set session environment
+
+  Replace the process environment used by local shell commands for this session.
+
+  ## Request Body
+
+  **Content Types**: `application/json`
+  """
+  @spec session_environment(sessionID :: String.t(), body :: map, opts :: keyword) ::
+          :ok
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_environment(sessionID, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID, body: body],
+      call: {OpenCode.Generated.Session, :session_environment},
+      url: "/api/session/#{sessionID}/environment",
+      body: body,
+      method: :put,
+      request: [{"application/json", :map}],
+      response: [
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @type session_fork_200_json_resp :: %{data: OpenCode.Generated.SessionInfo.t()}
+
+  @doc """
+  Fork session
+
+  Create a child session by copying projected history before a message. Omit before to copy the full history.
+
+  ## Request Body
+
+  **Content Types**: `application/json`
+  """
+  @spec session_fork(sessionID :: String.t(), body :: map, opts :: keyword) ::
+          {:ok, OpenCode.Generated.Session.session_fork_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.MessageNotFoundErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_fork(sessionID, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID, body: body],
+      call: {OpenCode.Generated.Session, :session_fork},
+      url: "/api/session/#{sessionID}/fork",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {200, {OpenCode.Generated.Session, :session_fork_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404,
+         {:union,
+          [
+            {OpenCode.Generated.MessageNotFoundErrorEncoded, :t},
+            {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}
           ]}}
       ],
       opts: opts
@@ -405,250 +659,415 @@ defmodule OpenCode.Generated.Session do
   end
 
   @doc """
-  Delete session
+  Cancel form
 
-  Delete a session and permanently remove all associated data, including messages and history.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
+  Cancel a pending form.
   """
-  @spec session_delete(sessionID :: String.t(), opts :: keyword) ::
-          {:ok, boolean}
+  @spec session_form_cancel(sessionID :: String.t(), formID :: String.t(), opts :: keyword) ::
+          :ok
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()}
-  def session_delete(sessionID, opts \\ []) do
+             OpenCode.Generated.FormAlreadySettledErrorEncoded.t()
+             | OpenCode.Generated.FormNotFoundErrorEncoded.t()
+             | OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_form_cancel(sessionID, formID, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
-      args: [sessionID: sessionID],
-      call: {OpenCode.Generated.Session, :session_delete},
-      url: "/session/#{sessionID}",
+      args: [sessionID: sessionID, formID: formID],
+      call: {OpenCode.Generated.Session, :session_form_cancel},
+      url: "/api/session/#{sessionID}/form/#{formID}",
       method: :delete,
-      query: query,
       response: [
-        {200, :boolean},
-        {400,
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404,
          {:union,
           [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
+            {OpenCode.Generated.FormNotFoundErrorEncoded, :t},
+            {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}
           ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}}
+        {409, {OpenCode.Generated.FormAlreadySettledErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
-  @doc """
-  Delete message
-
-  Permanently delete a specific message and all of its parts from a session without reverting file changes.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  """
-  @spec session_delete_message(sessionID :: String.t(), messageID :: String.t(), opts :: keyword) ::
-          {:ok, boolean}
-          | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()
-             | OpenCode.Generated.SessionBusyError.t()}
-  def session_delete_message(sessionID, messageID, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [sessionID: sessionID, messageID: messageID],
-      call: {OpenCode.Generated.Session, :session_delete_message},
-      url: "/session/#{sessionID}/message/#{messageID}",
-      method: :delete,
-      query: query,
-      response: [
-        {200, :boolean},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}},
-        {409, {OpenCode.Generated.SessionBusyError, :t}}
-      ],
-      opts: opts
-    })
-  end
+  @type session_form_create_200_json_resp :: %{data: OpenCode.Generated.FormInfo.t()}
 
   @doc """
-  Get message diff
+  Create session form
 
-  Get the file changes (diff) that resulted from a specific user message in the session.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-    * `messageID`
-
-  """
-  @spec session_diff(sessionID :: String.t(), opts :: keyword) ::
-          {:ok, [OpenCode.Generated.SnapshotFileDiff.t()]}
-          | {:error, OpenCode.Generated.BadRequestError.t()}
-  def session_diff(sessionID, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :messageID, :workspace])
-
-    client.request(%{
-      args: [sessionID: sessionID],
-      call: {OpenCode.Generated.Session, :session_diff},
-      url: "/session/#{sessionID}/diff",
-      method: :get,
-      query: query,
-      response: [
-        {200, [{OpenCode.Generated.SnapshotFileDiff, :t}]},
-        {400, {OpenCode.Generated.BadRequestError, :t}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Fork session
-
-  Create a new session by forking an existing session at a specific message point.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
+  Create a form for a session.
 
   ## Request Body
 
   **Content Types**: `application/json`
   """
-  @spec session_fork(sessionID :: String.t(), body :: map, opts :: keyword) ::
-          {:ok, OpenCode.Generated.Session.t()}
+  @spec session_form_create(
+          sessionID :: String.t(),
+          body :: OpenCode.Generated.FormCreatePayload.t(),
+          opts :: keyword
+        ) ::
+          {:ok, OpenCode.Generated.Session.session_form_create_200_json_resp()}
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()}
-  def session_fork(sessionID, body, opts \\ []) do
+             OpenCode.Generated.ConflictErrorEncoded.t()
+             | OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_form_create(sessionID, body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
       args: [sessionID: sessionID, body: body],
-      call: {OpenCode.Generated.Session, :session_fork},
-      url: "/session/#{sessionID}/fork",
+      call: {OpenCode.Generated.Session, :session_form_create},
+      url: "/api/session/#{sessionID}/form",
       body: body,
       method: :post,
-      query: query,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {OpenCode.Generated.FormCreatePayload, :t}}],
       response: [
-        {200, {OpenCode.Generated.Session, :t}},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}}
+        {200, {OpenCode.Generated.Session, :session_form_create_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}},
+        {409, {OpenCode.Generated.ConflictErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
+
+  @type session_form_get_200_json_resp :: %{data: OpenCode.Generated.FormDetail.t()}
+
+  @doc """
+  Get session form
+
+  Retrieve a form and its current state for a session.
+  """
+  @spec session_form_get(sessionID :: String.t(), formID :: String.t(), opts :: keyword) ::
+          {:ok, OpenCode.Generated.Session.session_form_get_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.FormNotFoundErrorEncoded.t()
+             | OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_form_get(sessionID, formID, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID, formID: formID],
+      call: {OpenCode.Generated.Session, :session_form_get},
+      url: "/api/session/#{sessionID}/form/#{formID}",
+      method: :get,
+      response: [
+        {200, {OpenCode.Generated.Session, :session_form_get_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404,
+         {:union,
+          [
+            {OpenCode.Generated.FormNotFoundErrorEncoded, :t},
+            {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}
+          ]}}
+      ],
+      opts: opts
+    })
+  end
+
+  @type session_form_list_200_json_resp :: %{data: [OpenCode.Generated.FormInfo.t()]}
+
+  @doc """
+  List session forms
+
+  Retrieve pending forms for a session.
+  """
+  @spec session_form_list(sessionID :: String.t(), opts :: keyword) ::
+          {:ok, OpenCode.Generated.Session.session_form_list_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_form_list(sessionID, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID],
+      call: {OpenCode.Generated.Session, :session_form_list},
+      url: "/api/session/#{sessionID}/form",
+      method: :get,
+      response: [
+        {200, {OpenCode.Generated.Session, :session_form_list_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Reply to form
+
+  Submit an answer to a pending form.
+
+  ## Request Body
+
+  **Content Types**: `application/json`
+  """
+  @spec session_form_reply(
+          sessionID :: String.t(),
+          formID :: String.t(),
+          body :: OpenCode.Generated.FormReply.t(),
+          opts :: keyword
+        ) ::
+          :ok
+          | {:error,
+             OpenCode.Generated.FormAlreadySettledErrorEncoded.t()
+             | OpenCode.Generated.FormInvalidAnswerErrorEncoded.t()
+             | OpenCode.Generated.FormNotFoundErrorEncoded.t()
+             | OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_form_reply(sessionID, formID, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID, formID: formID, body: body],
+      call: {OpenCode.Generated.Session, :session_form_reply},
+      url: "/api/session/#{sessionID}/form/#{formID}/reply",
+      body: body,
+      method: :post,
+      request: [{"application/json", {OpenCode.Generated.FormReply, :t}}],
+      response: [
+        {204, :null},
+        {400,
+         {:union,
+          [
+            {OpenCode.Generated.FormInvalidAnswerErrorEncoded, :t},
+            {OpenCode.Generated.InvalidRequestErrorEncoded, :t}
+          ]}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404,
+         {:union,
+          [
+            {OpenCode.Generated.FormNotFoundErrorEncoded, :t},
+            {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}
+          ]}},
+        {409, {OpenCode.Generated.FormAlreadySettledErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Generate text from session context
+
+  Generate transient text from the current session context without mutating session history.
+
+  ## Request Body
+
+  **Content Types**: `application/json`
+  """
+  @spec session_generate(sessionID :: String.t(), body :: map, opts :: keyword) ::
+          {:ok, OpenCode.Generated.SessionGenerateResponse.t()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.ServiceUnavailableErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_generate(sessionID, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID, body: body],
+      call: {OpenCode.Generated.Session, :session_generate},
+      url: "/api/session/#{sessionID}/generate",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {200, {OpenCode.Generated.SessionGenerateResponse, :t}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}},
+        {503, {OpenCode.Generated.ServiceUnavailableErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @type session_get_200_json_resp :: %{data: OpenCode.Generated.SessionInfo.t()}
 
   @doc """
   Get session
 
-  Retrieve detailed information about a specific OpenCode session.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
+  Retrieve a session by ID.
   """
   @spec session_get(sessionID :: String.t(), opts :: keyword) ::
-          {:ok, OpenCode.Generated.Session.t()}
+          {:ok, OpenCode.Generated.Session.session_get_200_json_resp()}
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()}
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
   def session_get(sessionID, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
       args: [sessionID: sessionID],
       call: {OpenCode.Generated.Session, :session_get},
-      url: "/session/#{sessionID}",
+      url: "/api/session/#{sessionID}",
       method: :get,
-      query: query,
       response: [
-        {200, {OpenCode.Generated.Session, :t}},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}}
+        {200, {OpenCode.Generated.Session, :session_get_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
   @doc """
-  Initialize session
+  Cancel inbox input
 
-  Analyze the current application and create an AGENTS.md file with project-specific agent configurations.
+  Cancel an inbox item that has not yet been delivered. Unavailable items are a no-op.
+  """
+  @spec session_inbox_cancel(sessionID :: String.t(), inboxID :: String.t(), opts :: keyword) ::
+          :ok
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_inbox_cancel(sessionID, inboxID, opts \\ []) do
+    client = opts[:client] || @default_client
 
-  ## Options
+    client.request(%{
+      args: [sessionID: sessionID, inboxID: inboxID],
+      call: {OpenCode.Generated.Session, :session_inbox_cancel},
+      url: "/api/session/#{sessionID}/inbox/#{inboxID}",
+      method: :delete,
+      response: [
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
 
-    * `directory`
-    * `workspace`
+  @type session_inbox_list_200_json_resp :: %{
+          data: [
+            OpenCode.Generated.SessionInboxCompaction.t()
+            | OpenCode.Generated.SessionInboxMove.t()
+            | OpenCode.Generated.SessionInboxSynthetic.t()
+            | OpenCode.Generated.SessionInboxUser.t()
+          ]
+        }
+
+  @doc """
+  List session inbox
+
+  List durable enqueued session work not yet delivered, ordered by enqueue sequence. Includes user, synthetic, compaction, and move items.
+  """
+  @spec session_inbox_list(sessionID :: String.t(), opts :: keyword) ::
+          {:ok, OpenCode.Generated.Session.session_inbox_list_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_inbox_list(sessionID, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID],
+      call: {OpenCode.Generated.Session, :session_inbox_list},
+      url: "/api/session/#{sessionID}/inbox",
+      method: :get,
+      response: [
+        {200, {OpenCode.Generated.Session, :session_inbox_list_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Update inbox item
+
+  Change a pending inbox item's delivery mode. Steering wakes session execution.
 
   ## Request Body
 
   **Content Types**: `application/json`
   """
-  @spec session_init(sessionID :: String.t(), body :: map, opts :: keyword) ::
-          {:ok, boolean}
+  @spec session_inbox_update(
+          sessionID :: String.t(),
+          inboxID :: String.t(),
+          body :: map,
+          opts :: keyword
+        ) ::
+          :ok
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()}
-  def session_init(sessionID, body, opts \\ []) do
+             OpenCode.Generated.ConflictErrorEncoded.t()
+             | OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_inbox_update(sessionID, inboxID, body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
-      args: [sessionID: sessionID, body: body],
-      call: {OpenCode.Generated.Session, :session_init},
-      url: "/session/#{sessionID}/init",
+      args: [sessionID: sessionID, inboxID: inboxID, body: body],
+      call: {OpenCode.Generated.Session, :session_inbox_update},
+      url: "/api/session/#{sessionID}/inbox/#{inboxID}",
       body: body,
-      method: :post,
-      query: query,
+      method: :patch,
       request: [{"application/json", :map}],
       response: [
-        {200, :boolean},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}}
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}},
+        {409, {OpenCode.Generated.ConflictErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Interrupt session execution
+
+  Interrupt active execution owned by this OpenCode process. Returns interrupted=true when an active execution was interrupted and false for the idle no-op. When resume=true, execution resumes pending steering input and next-in-line control items (manual compaction, moves) while queued prompts remain parked.
+
+  ## Options
+
+    * `resume`
+
+  """
+  @spec session_interrupt(sessionID :: String.t(), opts :: keyword) ::
+          {:ok, OpenCode.Generated.SessionInterruptResponse.t()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_interrupt(sessionID, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:resume])
+
+    client.request(%{
+      args: [sessionID: sessionID],
+      call: {OpenCode.Generated.Session, :session_interrupt},
+      url: "/api/session/#{sessionID}/interrupt",
+      method: :post,
+      query: query,
+      response: [
+        {200, {OpenCode.Generated.SessionInterruptResponse, :t}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
       ],
       opts: opts
     })
@@ -657,190 +1076,238 @@ defmodule OpenCode.Generated.Session do
   @doc """
   List sessions
 
-  Get a list of all OpenCode sessions, sorted by most recently updated.
+  Retrieve sessions in the requested order. Items keep that order across pages; use cursor.next or cursor.previous to move through the ordered list.
 
   ## Options
 
-    * `directory`
-    * `workspace`
-    * `scope`
-    * `path`
-    * `roots`
-    * `start`
-    * `search`
     * `limit`
+    * `order`
+    * `search`
+    * `parentID`
+    * `directory`
+    * `project`
+    * `subpath`
+    * `cursor`
 
   """
   @spec session_list(opts :: keyword) ::
-          {:ok, [OpenCode.Generated.Session.t()]}
-          | {:error, OpenCode.Generated.BadRequestError.t()}
+          {:ok, OpenCode.Generated.SessionsResponse.t()}
+          | {:error,
+             OpenCode.Generated.InvalidCursorErrorEncoded.t()
+             | OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
   def session_list(opts \\ []) do
     client = opts[:client] || @default_client
 
     query =
-      Keyword.take(opts, [:directory, :limit, :path, :roots, :scope, :search, :start, :workspace])
+      Keyword.take(opts, [
+        :cursor,
+        :directory,
+        :limit,
+        :order,
+        :parentID,
+        :project,
+        :search,
+        :subpath
+      ])
 
     client.request(%{
       args: [],
       call: {OpenCode.Generated.Session, :session_list},
-      url: "/session",
+      url: "/api/session",
       method: :get,
       query: query,
       response: [
-        {200, [{OpenCode.Generated.Session, :t}]},
-        {400, {OpenCode.Generated.BadRequestError, :t}}
-      ],
-      opts: opts
-    })
-  end
-
-  @type session_message_200_json_resp :: %{
-          info: OpenCode.Generated.AssistantMessage.t() | OpenCode.Generated.UserMessage.t(),
-          parts: [
-            OpenCode.Generated.AgentPart.t()
-            | OpenCode.Generated.CompactionPart.t()
-            | OpenCode.Generated.FilePart.t()
-            | OpenCode.Generated.PatchPart.t()
-            | OpenCode.Generated.ReasoningPart.t()
-            | OpenCode.Generated.RetryPart.t()
-            | OpenCode.Generated.SnapshotPart.t()
-            | OpenCode.Generated.StepFinishPart.t()
-            | OpenCode.Generated.StepStartPart.t()
-            | OpenCode.Generated.SubtaskPart.t()
-            | OpenCode.Generated.TextPart.t()
-            | OpenCode.Generated.ToolPart.t()
-          ]
-        }
-
-  @doc """
-  Get message
-
-  Retrieve a specific message from a session by its message ID.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  """
-  @spec session_message(sessionID :: String.t(), messageID :: String.t(), opts :: keyword) ::
-          {:ok, OpenCode.Generated.Session.session_message_200_json_resp()}
-          | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()}
-  def session_message(sessionID, messageID, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [sessionID: sessionID, messageID: messageID],
-      call: {OpenCode.Generated.Session, :session_message},
-      url: "/session/#{sessionID}/message/#{messageID}",
-      method: :get,
-      query: query,
-      response: [
-        {200, {OpenCode.Generated.Session, :session_message_200_json_resp}},
+        {200, {OpenCode.Generated.SessionsResponse, :t}},
         {400,
          {:union,
           [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
+            {OpenCode.Generated.InvalidCursorErrorEncoded, :t},
+            {OpenCode.Generated.InvalidRequestErrorEncoded, :t}
           ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}}
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
-  @type session_messages_200_json_resp :: %{
-          info: OpenCode.Generated.AssistantMessage.t() | OpenCode.Generated.UserMessage.t(),
-          parts: [
-            OpenCode.Generated.AgentPart.t()
-            | OpenCode.Generated.CompactionPart.t()
-            | OpenCode.Generated.FilePart.t()
-            | OpenCode.Generated.PatchPart.t()
-            | OpenCode.Generated.ReasoningPart.t()
-            | OpenCode.Generated.RetryPart.t()
-            | OpenCode.Generated.SnapshotPart.t()
-            | OpenCode.Generated.StepFinishPart.t()
-            | OpenCode.Generated.StepStartPart.t()
-            | OpenCode.Generated.SubtaskPart.t()
-            | OpenCode.Generated.TextPart.t()
-            | OpenCode.Generated.ToolPart.t()
-          ]
+  @type session_log_200__resp :: %{data: String.t(), event: String.t(), id: String.t() | nil}
+
+  @doc """
+  Read the session log
+
+  Experimental durable session event log. Reads events after an exclusive aggregate sequence and continues with live events when follow=true.
+
+  ## Options
+
+    * `after`
+    * `follow`
+
+  """
+  @spec session_log(sessionID :: String.t(), opts :: keyword) ::
+          {:ok, OpenCode.Generated.Session.session_log_200__resp()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_log(sessionID, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:after, :follow])
+
+    client.request(%{
+      args: [sessionID: sessionID],
+      call: {OpenCode.Generated.Session, :session_log},
+      url: "/api/experimental/session/#{sessionID}/log",
+      method: :get,
+      query: query,
+      response: [
+        {200, {OpenCode.Generated.Session, :session_log_200__resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @type session_message_get_200_json_resp :: %{
+          data:
+            map
+            | OpenCode.Generated.SessionMessageAgentSelected.t()
+            | OpenCode.Generated.SessionMessageAssistant.t()
+            | OpenCode.Generated.SessionMessageIdle.t()
+            | OpenCode.Generated.SessionMessageLocationSwitched.t()
+            | OpenCode.Generated.SessionMessageModelSelected.t()
+            | OpenCode.Generated.SessionMessageShell.t()
+            | OpenCode.Generated.SessionMessageSkill.t()
+            | OpenCode.Generated.SessionMessageSynthetic.t()
+            | OpenCode.Generated.SessionMessageSystem.t()
+            | OpenCode.Generated.SessionMessageUser.t()
         }
+
+  @doc """
+  Get session message
+
+  Retrieve one projected message owned by the Session.
+  """
+  @spec session_message_get(sessionID :: String.t(), messageID :: String.t(), opts :: keyword) ::
+          {:ok, OpenCode.Generated.Session.session_message_get_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.MessageNotFoundErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_message_get(sessionID, messageID, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID, messageID: messageID],
+      call: {OpenCode.Generated.Session, :session_message_get},
+      url: "/api/session/#{sessionID}/message/#{messageID}",
+      method: :get,
+      response: [
+        {200, {OpenCode.Generated.Session, :session_message_get_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404,
+         {:union,
+          [
+            {OpenCode.Generated.MessageNotFoundErrorEncoded, :t},
+            {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}
+          ]}}
+      ],
+      opts: opts
+    })
+  end
 
   @doc """
   Get session messages
 
-  Retrieve all messages in a session, including user prompts and AI responses.
+  Retrieve projected messages for a session, optionally filtered by type. Items keep the requested order across pages; use cursor.next or cursor.previous to move through the ordered timeline, passing the same type filter on each page.
 
   ## Options
 
-    * `directory`
-    * `workspace`
     * `limit`
-    * `before`
+    * `order`
+    * `cursor`
+    * `type`
 
   """
-  @spec session_messages(sessionID :: String.t(), opts :: keyword) ::
-          {:ok, [OpenCode.Generated.Session.session_messages_200_json_resp()]}
+  @spec session_message_list(sessionID :: String.t(), opts :: keyword) ::
+          {:ok, OpenCode.Generated.SessionMessagesResponse.t()}
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()}
-  def session_messages(sessionID, opts \\ []) do
+             OpenCode.Generated.InvalidCursorErrorEncoded.t()
+             | OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()
+             | OpenCode.Generated.UnknownErrorEncoded.t()}
+  def session_message_list(sessionID, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:before, :directory, :limit, :workspace])
+    query = Keyword.take(opts, [:cursor, :limit, :order, :type])
 
     client.request(%{
       args: [sessionID: sessionID],
-      call: {OpenCode.Generated.Session, :session_messages},
-      url: "/session/#{sessionID}/message",
+      call: {OpenCode.Generated.Session, :session_message_list},
+      url: "/api/session/#{sessionID}/message",
       method: :get,
       query: query,
       response: [
-        {200, [{OpenCode.Generated.Session, :session_messages_200_json_resp}]},
+        {200, {OpenCode.Generated.SessionMessagesResponse, :t}},
         {400,
          {:union,
           [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
+            {OpenCode.Generated.InvalidCursorErrorEncoded, :t},
+            {OpenCode.Generated.InvalidRequestErrorEncoded, :t}
           ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}}
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}},
+        {500, {OpenCode.Generated.UnknownErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
-  @type session_prompt_200_json_resp :: %{
-          info: OpenCode.Generated.AssistantMessage.t(),
-          parts: [
-            OpenCode.Generated.AgentPart.t()
-            | OpenCode.Generated.CompactionPart.t()
-            | OpenCode.Generated.FilePart.t()
-            | OpenCode.Generated.PatchPart.t()
-            | OpenCode.Generated.ReasoningPart.t()
-            | OpenCode.Generated.RetryPart.t()
-            | OpenCode.Generated.SnapshotPart.t()
-            | OpenCode.Generated.StepFinishPart.t()
-            | OpenCode.Generated.StepStartPart.t()
-            | OpenCode.Generated.SubtaskPart.t()
-            | OpenCode.Generated.TextPart.t()
-            | OpenCode.Generated.ToolPart.t()
-          ]
-        }
+  @doc """
+  Move session
+
+  Move a session to another project directory at the requested delivery boundary.
+
+  ## Request Body
+
+  **Content Types**: `application/json`
+  """
+  @spec session_move(sessionID :: String.t(), body :: map, opts :: keyword) ::
+          :ok
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_move(sessionID, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID, body: body],
+      call: {OpenCode.Generated.Session, :session_move},
+      url: "/api/session/#{sessionID}/move",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @type session_prompt_200_json_resp :: %{data: OpenCode.Generated.SessionInboxUser.t()}
 
   @doc """
   Send message
 
-  Create and send a new message to a session, streaming the AI response.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
+  Durably admit one session input and schedule agent-loop execution unless resume is false.
 
   ## Request Body
 
@@ -849,433 +1316,306 @@ defmodule OpenCode.Generated.Session do
   @spec session_prompt(sessionID :: String.t(), body :: map, opts :: keyword) ::
           {:ok, OpenCode.Generated.Session.session_prompt_200_json_resp()}
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()}
+             OpenCode.Generated.ConflictErrorEncoded.t()
+             | OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
   def session_prompt(sessionID, body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
       args: [sessionID: sessionID, body: body],
       call: {OpenCode.Generated.Session, :session_prompt},
-      url: "/session/#{sessionID}/message",
+      url: "/api/session/#{sessionID}/prompt",
       body: body,
       method: :post,
-      query: query,
       request: [{"application/json", :map}],
       response: [
         {200, {OpenCode.Generated.Session, :session_prompt_200_json_resp}},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}}
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}},
+        {409, {OpenCode.Generated.ConflictErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
   @doc """
-  Send async message
+  Delete session
 
-  Create and send a new message to a session asynchronously, starting the session if needed and returning immediately.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  ## Request Body
-
-  **Content Types**: `application/json`
+  Delete a session and its child sessions.
   """
-  @spec session_prompt_async(sessionID :: String.t(), body :: map, opts :: keyword) ::
+  @spec session_remove(sessionID :: String.t(), opts :: keyword) ::
           :ok
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()}
-  def session_prompt_async(sessionID, body, opts \\ []) do
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_remove(sessionID, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [sessionID: sessionID, body: body],
-      call: {OpenCode.Generated.Session, :session_prompt_async},
-      url: "/session/#{sessionID}/prompt_async",
-      body: body,
-      method: :post,
-      query: query,
-      request: [{"application/json", :map}],
-      response: [
-        {204, :null},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Revert message
-
-  Revert a specific message in a session, undoing its effects and restoring the previous state.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  ## Request Body
-
-  **Content Types**: `application/json`
-  """
-  @spec session_revert(sessionID :: String.t(), body :: map, opts :: keyword) ::
-          {:ok, OpenCode.Generated.Session.t()}
-          | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()
-             | OpenCode.Generated.SessionBusyError.t()}
-  def session_revert(sessionID, body, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [sessionID: sessionID, body: body],
-      call: {OpenCode.Generated.Session, :session_revert},
-      url: "/session/#{sessionID}/revert",
-      body: body,
-      method: :post,
-      query: query,
-      request: [{"application/json", :map}],
-      response: [
-        {200, {OpenCode.Generated.Session, :t}},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}},
-        {409, {OpenCode.Generated.SessionBusyError, :t}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Share session
-
-  Create a shareable link for a session, allowing others to view the conversation.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  """
-  @spec session_share(sessionID :: String.t(), opts :: keyword) ::
-          {:ok, OpenCode.Generated.Session.t()}
-          | {:error,
-             OpenCode.Generated.BadRequestError.t()
-             | OpenCode.Generated.EffectHttpApiErrorInternalServerError.t()
-             | OpenCode.Generated.NotFoundError.t()}
-  def session_share(sessionID, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
       args: [sessionID: sessionID],
-      call: {OpenCode.Generated.Session, :session_share},
-      url: "/session/#{sessionID}/share",
-      method: :post,
-      query: query,
+      call: {OpenCode.Generated.Session, :session_remove},
+      url: "/api/session/#{sessionID}",
+      method: :delete,
       response: [
-        {200, {OpenCode.Generated.Session, :t}},
-        {400, {OpenCode.Generated.BadRequestError, :t}},
-        {404, {OpenCode.Generated.NotFoundError, :t}},
-        {500, {OpenCode.Generated.EffectHttpApiErrorInternalServerError, :t}}
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
-  @type session_shell_200_json_resp :: %{
-          info: OpenCode.Generated.AssistantMessage.t() | OpenCode.Generated.UserMessage.t(),
-          parts: [
-            OpenCode.Generated.AgentPart.t()
-            | OpenCode.Generated.CompactionPart.t()
-            | OpenCode.Generated.FilePart.t()
-            | OpenCode.Generated.PatchPart.t()
-            | OpenCode.Generated.ReasoningPart.t()
-            | OpenCode.Generated.RetryPart.t()
-            | OpenCode.Generated.SnapshotPart.t()
-            | OpenCode.Generated.StepFinishPart.t()
-            | OpenCode.Generated.StepStartPart.t()
-            | OpenCode.Generated.SubtaskPart.t()
-            | OpenCode.Generated.TextPart.t()
-            | OpenCode.Generated.ToolPart.t()
-          ]
-        }
+  @doc """
+  Clear staged revert
+  """
+  @spec session_revert_clear(sessionID :: String.t(), opts :: keyword) ::
+          :ok
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionBusyErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()
+             | OpenCode.Generated.UnknownErrorEncoded.t()}
+  def session_revert_clear(sessionID, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID],
+      call: {OpenCode.Generated.Session, :session_revert_clear},
+      url: "/api/session/#{sessionID}/revert",
+      method: :delete,
+      response: [
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}},
+        {409, {OpenCode.Generated.SessionBusyErrorEncoded, :t}},
+        {500, {OpenCode.Generated.UnknownErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Commit staged revert
+  """
+  @spec session_revert_commit(sessionID :: String.t(), opts :: keyword) ::
+          :ok
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionBusyErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_revert_commit(sessionID, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID],
+      call: {OpenCode.Generated.Session, :session_revert_commit},
+      url: "/api/session/#{sessionID}/revert/commit",
+      method: :post,
+      response: [
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}},
+        {409, {OpenCode.Generated.SessionBusyErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @type session_revert_stage_200_json_resp :: %{data: OpenCode.Generated.SessionRevert.t()}
+
+  @doc """
+  Stage session revert
+
+  Stage or move a reversible session boundary and optionally apply its file changes.
+
+  ## Request Body
+
+  **Content Types**: `application/json`
+  """
+  @spec session_revert_stage(sessionID :: String.t(), body :: map, opts :: keyword) ::
+          {:ok, OpenCode.Generated.Session.session_revert_stage_200_json_resp()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.MessageNotFoundErrorEncoded.t()
+             | OpenCode.Generated.SessionBusyErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()
+             | OpenCode.Generated.UnknownErrorEncoded.t()}
+  def session_revert_stage(sessionID, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID, body: body],
+      call: {OpenCode.Generated.Session, :session_revert_stage},
+      url: "/api/session/#{sessionID}/revert/stage",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {200, {OpenCode.Generated.Session, :session_revert_stage_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404,
+         {:union,
+          [
+            {OpenCode.Generated.MessageNotFoundErrorEncoded, :t},
+            {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}
+          ]}},
+        {409, {OpenCode.Generated.SessionBusyErrorEncoded, :t}},
+        {500, {OpenCode.Generated.UnknownErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
 
   @doc """
   Run shell command
 
-  Execute a shell command within the session context and return the AI's response.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
+  Execute one shell command in the session's working directory. Emits a shell.started event before execution and a shell.ended event with the merged output after.
 
   ## Request Body
 
   **Content Types**: `application/json`
   """
   @spec session_shell(sessionID :: String.t(), body :: map, opts :: keyword) ::
-          {:ok, OpenCode.Generated.Session.session_shell_200_json_resp()}
+          :ok
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()
-             | OpenCode.Generated.SessionBusyError.t()}
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
   def session_shell(sessionID, body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
       args: [sessionID: sessionID, body: body],
       call: {OpenCode.Generated.Session, :session_shell},
-      url: "/session/#{sessionID}/shell",
+      url: "/api/session/#{sessionID}/shell",
       body: body,
       method: :post,
-      query: query,
       request: [{"application/json", :map}],
       response: [
-        {200, {OpenCode.Generated.Session, :session_shell_200_json_resp}},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}},
-        {409, {OpenCode.Generated.SessionBusyError, :t}}
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
   @doc """
-  Get session status
+  Switch session agent
 
-  Retrieve the current status of all sessions, including active, idle, and completed states.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  """
-  @spec session_status(opts :: keyword) ::
-          {:ok, map}
-          | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()}
-  def session_status(opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [],
-      call: {OpenCode.Generated.Session, :session_status},
-      url: "/session/status",
-      method: :get,
-      query: query,
-      response: [
-        {200, :map},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Summarize session
-
-  Generate a concise summary of the session using AI compaction to preserve key information.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
+  Switch the agent used by subsequent provider turns.
 
   ## Request Body
 
   **Content Types**: `application/json`
   """
-  @spec session_summarize(sessionID :: String.t(), body :: map, opts :: keyword) ::
-          {:ok, boolean}
+  @spec session_switch_agent(sessionID :: String.t(), body :: map, opts :: keyword) ::
+          :ok
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()}
-  def session_summarize(sessionID, body, opts \\ []) do
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_switch_agent(sessionID, body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
       args: [sessionID: sessionID, body: body],
-      call: {OpenCode.Generated.Session, :session_summarize},
-      url: "/session/#{sessionID}/summarize",
+      call: {OpenCode.Generated.Session, :session_switch_agent},
+      url: "/api/session/#{sessionID}/agent",
       body: body,
       method: :post,
-      query: query,
       request: [{"application/json", :map}],
       response: [
-        {200, :boolean},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}}
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
   @doc """
-  Get session todos
+  Switch session model
 
-  Retrieve the todo list associated with a specific session, showing tasks and action items.
+  Switch the model used by subsequent provider turns.
 
-  ## Options
+  ## Request Body
 
-    * `directory`
-    * `workspace`
-
+  **Content Types**: `application/json`
   """
-  @spec session_todo(sessionID :: String.t(), opts :: keyword) ::
-          {:ok, [OpenCode.Generated.Todo.t()]}
+  @spec session_switch_model(sessionID :: String.t(), body :: map, opts :: keyword) ::
+          :ok
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()}
-  def session_todo(sessionID, opts \\ []) do
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_switch_model(sessionID, body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
-      args: [sessionID: sessionID],
-      call: {OpenCode.Generated.Session, :session_todo},
-      url: "/session/#{sessionID}/todo",
-      method: :get,
-      query: query,
-      response: [
-        {200, [{OpenCode.Generated.Todo, :t}]},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Restore reverted messages
-
-  Restore all previously reverted messages in a session.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
-  """
-  @spec session_unrevert(sessionID :: String.t(), opts :: keyword) ::
-          {:ok, OpenCode.Generated.Session.t()}
-          | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()
-             | OpenCode.Generated.SessionBusyError.t()}
-  def session_unrevert(sessionID, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
-
-    client.request(%{
-      args: [sessionID: sessionID],
-      call: {OpenCode.Generated.Session, :session_unrevert},
-      url: "/session/#{sessionID}/unrevert",
+      args: [sessionID: sessionID, body: body],
+      call: {OpenCode.Generated.Session, :session_switch_model},
+      url: "/api/session/#{sessionID}/model",
+      body: body,
       method: :post,
-      query: query,
+      request: [{"application/json", :map}],
       response: [
-        {200, {OpenCode.Generated.Session, :t}},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}},
-        {409, {OpenCode.Generated.SessionBusyError, :t}}
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
+  @type session_synthetic_200_json_resp :: %{data: OpenCode.Generated.SessionInboxSynthetic.t()}
+
   @doc """
-  Unshare session
+  Add synthetic message
 
-  Remove the shareable link for a session, making it private again.
+  Durably admit synthetic session input and schedule execution unless resume is false.
 
-  ## Options
+  ## Request Body
 
-    * `directory`
-    * `workspace`
-
+  **Content Types**: `application/json`
   """
-  @spec session_unshare(sessionID :: String.t(), opts :: keyword) ::
-          {:ok, OpenCode.Generated.Session.t()}
+  @spec session_synthetic(sessionID :: String.t(), body :: map, opts :: keyword) ::
+          {:ok, OpenCode.Generated.Session.session_synthetic_200_json_resp()}
           | {:error,
-             OpenCode.Generated.BadRequestError.t()
-             | OpenCode.Generated.EffectHttpApiErrorInternalServerError.t()
-             | OpenCode.Generated.NotFoundError.t()}
-  def session_unshare(sessionID, opts \\ []) do
+             OpenCode.Generated.ConflictErrorEncoded.t()
+             | OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_synthetic(sessionID, body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
-      args: [sessionID: sessionID],
-      call: {OpenCode.Generated.Session, :session_unshare},
-      url: "/session/#{sessionID}/share",
-      method: :delete,
-      query: query,
+      args: [sessionID: sessionID, body: body],
+      call: {OpenCode.Generated.Session, :session_synthetic},
+      url: "/api/session/#{sessionID}/synthetic",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
       response: [
-        {200, {OpenCode.Generated.Session, :t}},
-        {400, {OpenCode.Generated.BadRequestError, :t}},
-        {404, {OpenCode.Generated.NotFoundError, :t}},
-        {500, {OpenCode.Generated.EffectHttpApiErrorInternalServerError, :t}}
+        {200, {OpenCode.Generated.Session, :session_synthetic_200_json_resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}},
+        {409, {OpenCode.Generated.ConflictErrorEncoded, :t}}
       ],
       opts: opts
     })
@@ -1284,234 +1624,193 @@ defmodule OpenCode.Generated.Session do
   @doc """
   Update session
 
-  Update properties of an existing session, such as title or other metadata.
-
-  ## Options
-
-    * `directory`
-    * `workspace`
+  Update mutable session properties.
 
   ## Request Body
 
   **Content Types**: `application/json`
   """
   @spec session_update(sessionID :: String.t(), body :: map, opts :: keyword) ::
-          {:ok, OpenCode.Generated.Session.t()}
+          :ok
           | {:error,
-             OpenCode.Generated.EffectHttpApiErrorBadRequest.t()
-             | OpenCode.Generated.InvalidRequestError.t()
-             | OpenCode.Generated.NotFoundError.t()}
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
   def session_update(sessionID, body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
       args: [sessionID: sessionID, body: body],
       call: {OpenCode.Generated.Session, :session_update},
-      url: "/session/#{sessionID}",
+      url: "/api/session/#{sessionID}",
       body: body,
       method: :patch,
-      query: query,
       request: [{"application/json", :map}],
       response: [
-        {200, {OpenCode.Generated.Session, :t}},
-        {400,
-         {:union,
-          [
-            {OpenCode.Generated.EffectHttpApiErrorBadRequest, :t},
-            {OpenCode.Generated.InvalidRequestError, :t}
-          ]}},
-        {404, {OpenCode.Generated.NotFoundError, :t}}
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
       ],
       opts: opts
     })
   end
 
-  @type t :: %__MODULE__{
-          agent: String.t() | nil,
-          cost: number | nil,
-          directory: String.t(),
-          id: String.t(),
-          metadata: map | nil,
-          model: OpenCode.Generated.SessionModel.t() | nil,
-          parent_id: String.t() | nil,
-          path: String.t() | nil,
-          permission: [OpenCode.Generated.PermissionRule.t()] | nil,
-          project_id: String.t(),
-          revert: OpenCode.Generated.SessionRevert.t() | nil,
-          share: OpenCode.Generated.SessionShare.t() | nil,
-          slug: String.t(),
-          summary: OpenCode.Generated.SessionSummary.t() | nil,
-          time: OpenCode.Generated.SessionTime.t(),
-          title: String.t(),
-          tokens: OpenCode.Generated.SessionTokens.t() | nil,
-          version: String.t(),
-          workspace_id: String.t() | nil
-        }
+  @doc """
+  View session
 
-  defstruct [
-    :agent,
-    :cost,
-    :directory,
-    :id,
-    :metadata,
-    :model,
-    :parent_id,
-    :path,
-    :permission,
-    :project_id,
-    :revert,
-    :share,
-    :slug,
-    :summary,
-    :time,
-    :title,
-    :tokens,
-    :version,
-    :workspace_id
-  ]
+  Mark the idle transition observed by the viewer as viewed.
+
+  ## Request Body
+
+  **Content Types**: `application/json`
+  """
+  @spec session_view(sessionID :: String.t(), body :: map, opts :: keyword) ::
+          :ok
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.SessionNotFoundErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
+  def session_view(sessionID, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [sessionID: sessionID, body: body],
+      call: {OpenCode.Generated.Session, :session_view},
+      url: "/api/session/#{sessionID}/view",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {204, :null},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}},
+        {404, {OpenCode.Generated.SessionNotFoundErrorEncoded, :t}}
+      ],
+      opts: opts
+    })
+  end
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(type \\ :t)
+  def __fields__(:experimental_session_export_200_json_resp) do
+    [data: {OpenCode.Generated.SessionTransferData, :t}]
+  end
 
-  def __fields__(:session_command_200_json_resp) do
+  def __fields__(:experimental_session_import_200_json_resp) do
+    [data: {OpenCode.Generated.SessionInfo, :t}]
+  end
+
+  def __fields__(:experimental_session_instructions_entry_list_200_json_resp) do
+    [data: [{OpenCode.Generated.InstructionEntryInfo, :t}]]
+  end
+
+  def __fields__(:experimental_session_stats_200_json_resp) do
+    [data: {OpenCode.Generated.SessionStatsInfo, :t}]
+  end
+
+  def __fields__(:session_active_200_json_resp) do
+    [data: :map]
+  end
+
+  def __fields__(:session_compact_200_json_resp) do
+    [data: {OpenCode.Generated.SessionInboxCompaction, :t}]
+  end
+
+  def __fields__(:session_context_200_json_resp) do
     [
-      info: {OpenCode.Generated.AssistantMessage, :t},
-      parts: [
+      data: [
         union: [
-          {OpenCode.Generated.AgentPart, :t},
-          {OpenCode.Generated.CompactionPart, :t},
-          {OpenCode.Generated.FilePart, :t},
-          {OpenCode.Generated.PatchPart, :t},
-          {OpenCode.Generated.ReasoningPart, :t},
-          {OpenCode.Generated.RetryPart, :t},
-          {OpenCode.Generated.SnapshotPart, :t},
-          {OpenCode.Generated.StepFinishPart, :t},
-          {OpenCode.Generated.StepStartPart, :t},
-          {OpenCode.Generated.SubtaskPart, :t},
-          {OpenCode.Generated.TextPart, :t},
-          {OpenCode.Generated.ToolPart, :t}
+          :map,
+          {OpenCode.Generated.SessionMessageAgentSelected, :t},
+          {OpenCode.Generated.SessionMessageAssistant, :t},
+          {OpenCode.Generated.SessionMessageIdle, :t},
+          {OpenCode.Generated.SessionMessageLocationSwitched, :t},
+          {OpenCode.Generated.SessionMessageModelSelected, :t},
+          {OpenCode.Generated.SessionMessageShell, :t},
+          {OpenCode.Generated.SessionMessageSkill, :t},
+          {OpenCode.Generated.SessionMessageSynthetic, :t},
+          {OpenCode.Generated.SessionMessageSystem, :t},
+          {OpenCode.Generated.SessionMessageUser, :t}
         ]
       ]
     ]
   end
 
-  def __fields__(:session_message_200_json_resp) do
+  def __fields__(:session_create_200_json_resp) do
+    [data: {OpenCode.Generated.SessionInfo, :t}]
+  end
+
+  def __fields__(:session_diff_200_json_resp) do
+    [data: [{OpenCode.Generated.FileDiffInfo, :t}]]
+  end
+
+  def __fields__(:session_fork_200_json_resp) do
+    [data: {OpenCode.Generated.SessionInfo, :t}]
+  end
+
+  def __fields__(:session_form_create_200_json_resp) do
+    [data: {OpenCode.Generated.FormInfo, :t}]
+  end
+
+  def __fields__(:session_form_get_200_json_resp) do
+    [data: {OpenCode.Generated.FormDetail, :t}]
+  end
+
+  def __fields__(:session_form_list_200_json_resp) do
+    [data: [{OpenCode.Generated.FormInfo, :t}]]
+  end
+
+  def __fields__(:session_get_200_json_resp) do
+    [data: {OpenCode.Generated.SessionInfo, :t}]
+  end
+
+  def __fields__(:session_inbox_list_200_json_resp) do
     [
-      info:
-        {:union,
-         [{OpenCode.Generated.AssistantMessage, :t}, {OpenCode.Generated.UserMessage, :t}]},
-      parts: [
+      data: [
         union: [
-          {OpenCode.Generated.AgentPart, :t},
-          {OpenCode.Generated.CompactionPart, :t},
-          {OpenCode.Generated.FilePart, :t},
-          {OpenCode.Generated.PatchPart, :t},
-          {OpenCode.Generated.ReasoningPart, :t},
-          {OpenCode.Generated.RetryPart, :t},
-          {OpenCode.Generated.SnapshotPart, :t},
-          {OpenCode.Generated.StepFinishPart, :t},
-          {OpenCode.Generated.StepStartPart, :t},
-          {OpenCode.Generated.SubtaskPart, :t},
-          {OpenCode.Generated.TextPart, :t},
-          {OpenCode.Generated.ToolPart, :t}
+          {OpenCode.Generated.SessionInboxCompaction, :t},
+          {OpenCode.Generated.SessionInboxMove, :t},
+          {OpenCode.Generated.SessionInboxSynthetic, :t},
+          {OpenCode.Generated.SessionInboxUser, :t}
         ]
       ]
     ]
   end
 
-  def __fields__(:session_messages_200_json_resp) do
+  def __fields__(:session_log_200__resp) do
+    [data: :string, event: :string, id: {:union, [:string, :null]}]
+  end
+
+  def __fields__(:session_message_get_200_json_resp) do
     [
-      info:
+      data:
         {:union,
-         [{OpenCode.Generated.AssistantMessage, :t}, {OpenCode.Generated.UserMessage, :t}]},
-      parts: [
-        union: [
-          {OpenCode.Generated.AgentPart, :t},
-          {OpenCode.Generated.CompactionPart, :t},
-          {OpenCode.Generated.FilePart, :t},
-          {OpenCode.Generated.PatchPart, :t},
-          {OpenCode.Generated.ReasoningPart, :t},
-          {OpenCode.Generated.RetryPart, :t},
-          {OpenCode.Generated.SnapshotPart, :t},
-          {OpenCode.Generated.StepFinishPart, :t},
-          {OpenCode.Generated.StepStartPart, :t},
-          {OpenCode.Generated.SubtaskPart, :t},
-          {OpenCode.Generated.TextPart, :t},
-          {OpenCode.Generated.ToolPart, :t}
-        ]
-      ]
+         [
+           :map,
+           {OpenCode.Generated.SessionMessageAgentSelected, :t},
+           {OpenCode.Generated.SessionMessageAssistant, :t},
+           {OpenCode.Generated.SessionMessageIdle, :t},
+           {OpenCode.Generated.SessionMessageLocationSwitched, :t},
+           {OpenCode.Generated.SessionMessageModelSelected, :t},
+           {OpenCode.Generated.SessionMessageShell, :t},
+           {OpenCode.Generated.SessionMessageSkill, :t},
+           {OpenCode.Generated.SessionMessageSynthetic, :t},
+           {OpenCode.Generated.SessionMessageSystem, :t},
+           {OpenCode.Generated.SessionMessageUser, :t}
+         ]}
     ]
   end
 
   def __fields__(:session_prompt_200_json_resp) do
-    [
-      info: {OpenCode.Generated.AssistantMessage, :t},
-      parts: [
-        union: [
-          {OpenCode.Generated.AgentPart, :t},
-          {OpenCode.Generated.CompactionPart, :t},
-          {OpenCode.Generated.FilePart, :t},
-          {OpenCode.Generated.PatchPart, :t},
-          {OpenCode.Generated.ReasoningPart, :t},
-          {OpenCode.Generated.RetryPart, :t},
-          {OpenCode.Generated.SnapshotPart, :t},
-          {OpenCode.Generated.StepFinishPart, :t},
-          {OpenCode.Generated.StepStartPart, :t},
-          {OpenCode.Generated.SubtaskPart, :t},
-          {OpenCode.Generated.TextPart, :t},
-          {OpenCode.Generated.ToolPart, :t}
-        ]
-      ]
-    ]
+    [data: {OpenCode.Generated.SessionInboxUser, :t}]
   end
 
-  def __fields__(:session_shell_200_json_resp) do
-    [
-      info:
-        {:union,
-         [{OpenCode.Generated.AssistantMessage, :t}, {OpenCode.Generated.UserMessage, :t}]},
-      parts: [
-        union: [
-          {OpenCode.Generated.AgentPart, :t},
-          {OpenCode.Generated.CompactionPart, :t},
-          {OpenCode.Generated.FilePart, :t},
-          {OpenCode.Generated.PatchPart, :t},
-          {OpenCode.Generated.ReasoningPart, :t},
-          {OpenCode.Generated.RetryPart, :t},
-          {OpenCode.Generated.SnapshotPart, :t},
-          {OpenCode.Generated.StepFinishPart, :t},
-          {OpenCode.Generated.StepStartPart, :t},
-          {OpenCode.Generated.SubtaskPart, :t},
-          {OpenCode.Generated.TextPart, :t},
-          {OpenCode.Generated.ToolPart, :t}
-        ]
-      ]
-    ]
+  def __fields__(:session_revert_stage_200_json_resp) do
+    [data: {OpenCode.Generated.SessionRevert, :t}]
   end
 
-  def __fields__(:t) do
-    [
-      agent: :string,
-      cost: :number,
-      directory: :string,
-      id: :string,
-      metadata: :map,
-      model: {OpenCode.Generated.SessionModel, :t},
-      parent_id: :string,
-      path: :string,
-      permission: [{OpenCode.Generated.PermissionRule, :t}],
-      project_id: :string,
-      revert: {OpenCode.Generated.SessionRevert, :t},
-      share: {OpenCode.Generated.SessionShare, :t},
-      slug: :string,
-      summary: {OpenCode.Generated.SessionSummary, :t},
-      time: {OpenCode.Generated.SessionTime, :t},
-      title: :string,
-      tokens: {OpenCode.Generated.SessionTokens, :t},
-      version: :string,
-      workspace_id: :string
-    ]
+  def __fields__(:session_synthetic_200_json_resp) do
+    [data: {OpenCode.Generated.SessionInboxSynthetic, :t}]
   end
 end

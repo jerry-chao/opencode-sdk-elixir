@@ -4,6 +4,7 @@ defmodule OpenCode.Generated.SessionMessageSystem do
   """
 
   @type t :: %__MODULE__{
+          description: String.t() | nil,
           id: String.t(),
           metadata: map | nil,
           text: String.t(),
@@ -11,7 +12,7 @@ defmodule OpenCode.Generated.SessionMessageSystem do
           type: String.t()
         }
 
-  defstruct [:id, :metadata, :text, :time, :type]
+  defstruct [:description, :id, :metadata, :text, :time, :type]
 
   @doc false
   @spec __fields__(atom) :: keyword
@@ -19,6 +20,7 @@ defmodule OpenCode.Generated.SessionMessageSystem do
 
   def __fields__(:t) do
     [
+      description: :string,
       id: :string,
       metadata: :map,
       text: :string,

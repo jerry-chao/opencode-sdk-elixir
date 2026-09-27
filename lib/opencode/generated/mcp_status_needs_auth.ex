@@ -1,17 +1,17 @@
-defmodule OpenCode.Generated.MCPStatusNeedsAuth do
+defmodule OpenCode.Generated.McpStatusNeedsAuth do
   @moduledoc """
-  Provides struct and type for a MCPStatusNeedsAuth
+  Provides struct and type for a McpStatusNeedsAuth
   """
 
-  @type t :: %__MODULE__{status: String.t()}
+  @type t :: %__MODULE__{error: String.t(), status: String.t()}
 
-  defstruct [:status]
+  defstruct [:error, :status]
 
   @doc false
   @spec __fields__(atom) :: keyword
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [status: {:const, "needs_auth"}]
+    [error: :string, status: {:const, "needs_auth"}]
   end
 end

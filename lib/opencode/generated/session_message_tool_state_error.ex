@@ -4,17 +4,16 @@ defmodule OpenCode.Generated.SessionMessageToolStateError do
   """
 
   @type t :: %__MODULE__{
-          content: [
-            OpenCode.Generated.ToolFileContent.t() | OpenCode.Generated.ToolTextContent.t()
-          ],
-          error: OpenCode.Generated.SessionErrorUnknown.t(),
+          content:
+            [OpenCode.Generated.ToolFileContent.t() | OpenCode.Generated.ToolTextContent.t()]
+            | nil,
+          error: OpenCode.Generated.SessionStructuredError.t(),
           input: map,
-          result: map | nil,
-          status: String.t(),
-          structured: map
+          metadata: map | nil,
+          status: String.t()
         }
 
-  defstruct [:content, :error, :input, :result, :status, :structured]
+  defstruct [:content, :error, :input, :metadata, :status]
 
   @doc false
   @spec __fields__(atom) :: keyword
@@ -28,11 +27,10 @@ defmodule OpenCode.Generated.SessionMessageToolStateError do
           {OpenCode.Generated.ToolTextContent, :t}
         ]
       ],
-      error: {OpenCode.Generated.SessionErrorUnknown, :t},
+      error: {OpenCode.Generated.SessionStructuredError, :t},
       input: :map,
-      result: :map,
-      status: {:const, "error"},
-      structured: :map
+      metadata: :map,
+      status: {:const, "error"}
     ]
   end
 end

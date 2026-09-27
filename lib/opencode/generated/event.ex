@@ -5,215 +5,38 @@ defmodule OpenCode.Generated.Event do
 
   @default_client OpenCode.Client
 
+  @type event_subscribe_200__resp :: %{data: String.t(), event: String.t(), id: String.t() | nil}
+
   @doc """
   Subscribe to events
 
-  Get events
-
-  ## Options
-
-    * `directory`
-    * `workspace`
-
+  Subscribe to native events and plugin RPC events across all server locations. Volatile by contract: a slow consumer overflows and fails the stream, and events during disconnection are missed.
   """
   @spec event_subscribe(opts :: keyword) ::
-          {:ok,
-           OpenCode.Generated.EventCatalogUpdated.t()
-           | OpenCode.Generated.EventCommandExecuted.t()
-           | OpenCode.Generated.EventFileEdited.t()
-           | OpenCode.Generated.EventFileWatcherUpdated.t()
-           | OpenCode.Generated.EventGlobalDisposed.t()
-           | OpenCode.Generated.EventInstallationUpdateAvailable.t()
-           | OpenCode.Generated.EventInstallationUpdated.t()
-           | OpenCode.Generated.EventIntegrationConnectionUpdated.t()
-           | OpenCode.Generated.EventIntegrationUpdated.t()
-           | OpenCode.Generated.EventLspUpdated.t()
-           | OpenCode.Generated.EventMcpBrowserOpenFailed.t()
-           | OpenCode.Generated.EventMcpToolsChanged.t()
-           | OpenCode.Generated.EventMessagePartDelta.t()
-           | OpenCode.Generated.EventMessagePartRemoved.t()
-           | OpenCode.Generated.EventMessagePartUpdated.t()
-           | OpenCode.Generated.EventMessageRemoved.t()
-           | OpenCode.Generated.EventMessageUpdated.t()
-           | OpenCode.Generated.EventModelsDevRefreshed.t()
-           | OpenCode.Generated.EventPermissionAsked.t()
-           | OpenCode.Generated.EventPermissionReplied.t()
-           | OpenCode.Generated.EventPermissionV2Asked.t()
-           | OpenCode.Generated.EventPermissionV2Replied.t()
-           | OpenCode.Generated.EventPluginAdded.t()
-           | OpenCode.Generated.EventProjectDirectoriesUpdated.t()
-           | OpenCode.Generated.EventProjectUpdated.t()
-           | OpenCode.Generated.EventPtyCreated.t()
-           | OpenCode.Generated.EventPtyDeleted.t()
-           | OpenCode.Generated.EventPtyExited.t()
-           | OpenCode.Generated.EventPtyUpdated.t()
-           | OpenCode.Generated.EventQuestionAsked.t()
-           | OpenCode.Generated.EventQuestionRejected.t()
-           | OpenCode.Generated.EventQuestionReplied.t()
-           | OpenCode.Generated.EventQuestionV2Asked.t()
-           | OpenCode.Generated.EventQuestionV2Rejected.t()
-           | OpenCode.Generated.EventQuestionV2Replied.t()
-           | OpenCode.Generated.EventReferenceUpdated.t()
-           | OpenCode.Generated.EventServerConnected.t()
-           | OpenCode.Generated.EventServerInstanceDisposed.t()
-           | OpenCode.Generated.EventSessionCompacted.t()
-           | OpenCode.Generated.EventSessionCreated.t()
-           | OpenCode.Generated.EventSessionDeleted.t()
-           | OpenCode.Generated.EventSessionDiff.t()
-           | OpenCode.Generated.EventSessionError.t()
-           | OpenCode.Generated.EventSessionIdle.t()
-           | OpenCode.Generated.EventSessionNextAgentSwitched.t()
-           | OpenCode.Generated.EventSessionNextCompactionDelta.t()
-           | OpenCode.Generated.EventSessionNextCompactionEnded.t()
-           | OpenCode.Generated.EventSessionNextCompactionStarted.t()
-           | OpenCode.Generated.EventSessionNextContextUpdated.t()
-           | OpenCode.Generated.EventSessionNextModelSwitched.t()
-           | OpenCode.Generated.EventSessionNextMoved.t()
-           | OpenCode.Generated.EventSessionNextPromptAdmitted.t()
-           | OpenCode.Generated.EventSessionNextPrompted.t()
-           | OpenCode.Generated.EventSessionNextReasoningDelta.t()
-           | OpenCode.Generated.EventSessionNextReasoningEnded.t()
-           | OpenCode.Generated.EventSessionNextReasoningStarted.t()
-           | OpenCode.Generated.EventSessionNextRetried.t()
-           | OpenCode.Generated.EventSessionNextRevertCleared.t()
-           | OpenCode.Generated.EventSessionNextRevertCommitted.t()
-           | OpenCode.Generated.EventSessionNextRevertStaged.t()
-           | OpenCode.Generated.EventSessionNextShellEnded.t()
-           | OpenCode.Generated.EventSessionNextShellStarted.t()
-           | OpenCode.Generated.EventSessionNextStepEnded.t()
-           | OpenCode.Generated.EventSessionNextStepFailed.t()
-           | OpenCode.Generated.EventSessionNextStepStarted.t()
-           | OpenCode.Generated.EventSessionNextSynthetic.t()
-           | OpenCode.Generated.EventSessionNextTextDelta.t()
-           | OpenCode.Generated.EventSessionNextTextEnded.t()
-           | OpenCode.Generated.EventSessionNextTextStarted.t()
-           | OpenCode.Generated.EventSessionNextToolCalled.t()
-           | OpenCode.Generated.EventSessionNextToolFailed.t()
-           | OpenCode.Generated.EventSessionNextToolInputDelta.t()
-           | OpenCode.Generated.EventSessionNextToolInputEnded.t()
-           | OpenCode.Generated.EventSessionNextToolInputStarted.t()
-           | OpenCode.Generated.EventSessionNextToolProgress.t()
-           | OpenCode.Generated.EventSessionNextToolSuccess.t()
-           | OpenCode.Generated.EventSessionStatus.t()
-           | OpenCode.Generated.EventSessionUpdated.t()
-           | OpenCode.Generated.EventTodoUpdated.t()
-           | OpenCode.Generated.EventTuiCommandExecute.t()
-           | OpenCode.Generated.EventTuiPromptAppend.t()
-           | OpenCode.Generated.EventTuiSessionSelect.t()
-           | OpenCode.Generated.EventTuiToastShow.t()
-           | OpenCode.Generated.EventVcsBranchUpdated.t()
-           | OpenCode.Generated.EventWorkspaceFailed.t()
-           | OpenCode.Generated.EventWorkspaceReady.t()
-           | OpenCode.Generated.EventWorkspaceStatus.t()
-           | OpenCode.Generated.EventWorktreeFailed.t()
-           | OpenCode.Generated.EventWorktreeReady.t()}
-          | :error
+          {:ok, OpenCode.Generated.Event.event_subscribe_200__resp()}
+          | {:error,
+             OpenCode.Generated.InvalidRequestErrorEncoded.t()
+             | OpenCode.Generated.UnauthorizedErrorEncoded.t()}
   def event_subscribe(opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:directory, :workspace])
 
     client.request(%{
       args: [],
       call: {OpenCode.Generated.Event, :event_subscribe},
-      url: "/event",
+      url: "/api/event",
       method: :get,
-      query: query,
       response: [
-        {200,
-         {:union,
-          [
-            {OpenCode.Generated.EventCatalogUpdated, :t},
-            {OpenCode.Generated.EventCommandExecuted, :t},
-            {OpenCode.Generated.EventFileEdited, :t},
-            {OpenCode.Generated.EventFileWatcherUpdated, :t},
-            {OpenCode.Generated.EventGlobalDisposed, :t},
-            {OpenCode.Generated.EventInstallationUpdateAvailable, :t},
-            {OpenCode.Generated.EventInstallationUpdated, :t},
-            {OpenCode.Generated.EventIntegrationConnectionUpdated, :t},
-            {OpenCode.Generated.EventIntegrationUpdated, :t},
-            {OpenCode.Generated.EventLspUpdated, :t},
-            {OpenCode.Generated.EventMcpBrowserOpenFailed, :t},
-            {OpenCode.Generated.EventMcpToolsChanged, :t},
-            {OpenCode.Generated.EventMessagePartDelta, :t},
-            {OpenCode.Generated.EventMessagePartRemoved, :t},
-            {OpenCode.Generated.EventMessagePartUpdated, :t},
-            {OpenCode.Generated.EventMessageRemoved, :t},
-            {OpenCode.Generated.EventMessageUpdated, :t},
-            {OpenCode.Generated.EventModelsDevRefreshed, :t},
-            {OpenCode.Generated.EventPermissionAsked, :t},
-            {OpenCode.Generated.EventPermissionReplied, :t},
-            {OpenCode.Generated.EventPermissionV2Asked, :t},
-            {OpenCode.Generated.EventPermissionV2Replied, :t},
-            {OpenCode.Generated.EventPluginAdded, :t},
-            {OpenCode.Generated.EventProjectDirectoriesUpdated, :t},
-            {OpenCode.Generated.EventProjectUpdated, :t},
-            {OpenCode.Generated.EventPtyCreated, :t},
-            {OpenCode.Generated.EventPtyDeleted, :t},
-            {OpenCode.Generated.EventPtyExited, :t},
-            {OpenCode.Generated.EventPtyUpdated, :t},
-            {OpenCode.Generated.EventQuestionAsked, :t},
-            {OpenCode.Generated.EventQuestionRejected, :t},
-            {OpenCode.Generated.EventQuestionReplied, :t},
-            {OpenCode.Generated.EventQuestionV2Asked, :t},
-            {OpenCode.Generated.EventQuestionV2Rejected, :t},
-            {OpenCode.Generated.EventQuestionV2Replied, :t},
-            {OpenCode.Generated.EventReferenceUpdated, :t},
-            {OpenCode.Generated.EventServerConnected, :t},
-            {OpenCode.Generated.EventServerInstanceDisposed, :t},
-            {OpenCode.Generated.EventSessionCompacted, :t},
-            {OpenCode.Generated.EventSessionCreated, :t},
-            {OpenCode.Generated.EventSessionDeleted, :t},
-            {OpenCode.Generated.EventSessionDiff, :t},
-            {OpenCode.Generated.EventSessionError, :t},
-            {OpenCode.Generated.EventSessionIdle, :t},
-            {OpenCode.Generated.EventSessionNextAgentSwitched, :t},
-            {OpenCode.Generated.EventSessionNextCompactionDelta, :t},
-            {OpenCode.Generated.EventSessionNextCompactionEnded, :t},
-            {OpenCode.Generated.EventSessionNextCompactionStarted, :t},
-            {OpenCode.Generated.EventSessionNextContextUpdated, :t},
-            {OpenCode.Generated.EventSessionNextModelSwitched, :t},
-            {OpenCode.Generated.EventSessionNextMoved, :t},
-            {OpenCode.Generated.EventSessionNextPromptAdmitted, :t},
-            {OpenCode.Generated.EventSessionNextPrompted, :t},
-            {OpenCode.Generated.EventSessionNextReasoningDelta, :t},
-            {OpenCode.Generated.EventSessionNextReasoningEnded, :t},
-            {OpenCode.Generated.EventSessionNextReasoningStarted, :t},
-            {OpenCode.Generated.EventSessionNextRetried, :t},
-            {OpenCode.Generated.EventSessionNextRevertCleared, :t},
-            {OpenCode.Generated.EventSessionNextRevertCommitted, :t},
-            {OpenCode.Generated.EventSessionNextRevertStaged, :t},
-            {OpenCode.Generated.EventSessionNextShellEnded, :t},
-            {OpenCode.Generated.EventSessionNextShellStarted, :t},
-            {OpenCode.Generated.EventSessionNextStepEnded, :t},
-            {OpenCode.Generated.EventSessionNextStepFailed, :t},
-            {OpenCode.Generated.EventSessionNextStepStarted, :t},
-            {OpenCode.Generated.EventSessionNextSynthetic, :t},
-            {OpenCode.Generated.EventSessionNextTextDelta, :t},
-            {OpenCode.Generated.EventSessionNextTextEnded, :t},
-            {OpenCode.Generated.EventSessionNextTextStarted, :t},
-            {OpenCode.Generated.EventSessionNextToolCalled, :t},
-            {OpenCode.Generated.EventSessionNextToolFailed, :t},
-            {OpenCode.Generated.EventSessionNextToolInputDelta, :t},
-            {OpenCode.Generated.EventSessionNextToolInputEnded, :t},
-            {OpenCode.Generated.EventSessionNextToolInputStarted, :t},
-            {OpenCode.Generated.EventSessionNextToolProgress, :t},
-            {OpenCode.Generated.EventSessionNextToolSuccess, :t},
-            {OpenCode.Generated.EventSessionStatus, :t},
-            {OpenCode.Generated.EventSessionUpdated, :t},
-            {OpenCode.Generated.EventTodoUpdated, :t},
-            {OpenCode.Generated.EventTuiCommandExecute, :t},
-            {OpenCode.Generated.EventTuiPromptAppend, :t},
-            {OpenCode.Generated.EventTuiSessionSelect, :t},
-            {OpenCode.Generated.EventTuiToastShow, :t},
-            {OpenCode.Generated.EventVcsBranchUpdated, :t},
-            {OpenCode.Generated.EventWorkspaceFailed, :t},
-            {OpenCode.Generated.EventWorkspaceReady, :t},
-            {OpenCode.Generated.EventWorkspaceStatus, :t},
-            {OpenCode.Generated.EventWorktreeFailed, :t},
-            {OpenCode.Generated.EventWorktreeReady, :t}
-          ]}}
+        {200, {OpenCode.Generated.Event, :event_subscribe_200__resp}},
+        {400, {OpenCode.Generated.InvalidRequestErrorEncoded, :t}},
+        {401, {OpenCode.Generated.UnauthorizedErrorEncoded, :t}}
       ],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:event_subscribe_200__resp) do
+    [data: :string, event: :string, id: {:union, [:string, :null]}]
   end
 end

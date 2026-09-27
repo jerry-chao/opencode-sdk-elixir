@@ -4,14 +4,15 @@ defmodule OpenCode.Generated.PromptFileAttachment do
   """
 
   @type t :: %__MODULE__{
+          data: String.t(),
           description: String.t() | nil,
+          mention: OpenCode.Generated.PromptMention.t() | nil,
           mime: String.t(),
           name: String.t() | nil,
-          source: OpenCode.Generated.PromptSource.t() | nil,
-          uri: String.t()
+          source: OpenCode.Generated.PromptFileAttachmentSource.t()
         }
 
-  defstruct [:description, :mime, :name, :source, :uri]
+  defstruct [:data, :description, :mention, :mime, :name, :source]
 
   @doc false
   @spec __fields__(atom) :: keyword
@@ -19,11 +20,12 @@ defmodule OpenCode.Generated.PromptFileAttachment do
 
   def __fields__(:t) do
     [
+      data: :string,
       description: :string,
+      mention: {OpenCode.Generated.PromptMention, :t},
       mime: :string,
       name: :string,
-      source: {OpenCode.Generated.PromptSource, :t},
-      uri: :string
+      source: {OpenCode.Generated.PromptFileAttachmentSource, :t}
     ]
   end
 end

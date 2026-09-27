@@ -5,12 +5,12 @@ defmodule OpenCode.Generated.PromptInputFileAttachment do
 
   @type t :: %__MODULE__{
           description: String.t() | nil,
+          mention: OpenCode.Generated.PromptMention.t() | nil,
           name: String.t() | nil,
-          source: OpenCode.Generated.PromptSource.t() | nil,
           uri: String.t()
         }
 
-  defstruct [:description, :name, :source, :uri]
+  defstruct [:description, :mention, :name, :uri]
 
   @doc false
   @spec __fields__(atom) :: keyword
@@ -19,8 +19,8 @@ defmodule OpenCode.Generated.PromptInputFileAttachment do
   def __fields__(:t) do
     [
       description: :string,
+      mention: {OpenCode.Generated.PromptMention, :t},
       name: :string,
-      source: {OpenCode.Generated.PromptSource, :t},
       uri: :string
     ]
   end

@@ -1,6 +1,6 @@
-defmodule OpenCode.Generated.MCPStatusConnected do
+defmodule OpenCode.Generated.McpStatusConnected do
   @moduledoc """
-  Provides struct and type for a MCPStatusConnected
+  Provides struct and type for a McpStatusConnected
   """
 
   @type t :: %__MODULE__{status: String.t()}

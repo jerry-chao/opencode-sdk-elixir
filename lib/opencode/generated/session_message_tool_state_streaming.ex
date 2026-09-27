@@ -1,0 +1,17 @@
+defmodule OpenCode.Generated.SessionMessageToolStateStreaming do
+  @moduledoc """
+  Provides struct and type for a SessionMessageToolStateStreaming
+  """
+
+  @type t :: %__MODULE__{input: String.t(), status: String.t()}
+
+  defstruct [:input, :status]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(type \\ :t)
+
+  def __fields__(:t) do
+    [input: :string, status: {:const, "streaming"}]
+  end
+end

@@ -3,15 +3,19 @@ defmodule OpenCode.Generated.ProviderRequest do
   Provides struct and type for a ProviderRequest
   """
 
-  @type t :: %__MODULE__{body: map, headers: map}
+  @type t :: %__MODULE__{
+          body: map,
+          headers: map,
+          settings: OpenCode.Generated.ProviderSettings.t()
+        }
 
-  defstruct [:body, :headers]
+  defstruct [:body, :headers, :settings]
 
   @doc false
   @spec __fields__(atom) :: keyword
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [body: :map, headers: :map]
+    [body: :map, headers: :map, settings: {OpenCode.Generated.ProviderSettings, :t}]
   end
 end

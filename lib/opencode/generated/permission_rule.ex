@@ -3,15 +3,15 @@ defmodule OpenCode.Generated.PermissionRule do
   Provides struct and type for a PermissionRule
   """
 
-  @type t :: %__MODULE__{action: String.t(), pattern: String.t(), permission: String.t()}
+  @type t :: %__MODULE__{action: String.t(), effect: String.t(), resource: String.t()}
 
-  defstruct [:action, :pattern, :permission]
+  defstruct [:action, :effect, :resource]
 
   @doc false
   @spec __fields__(atom) :: keyword
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [action: {:enum, ["allow", "deny", "ask"]}, pattern: :string, permission: :string]
+    [action: :string, effect: {:enum, ["allow", "deny", "ask"]}, resource: :string]
   end
 end

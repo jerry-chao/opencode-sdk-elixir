@@ -11,14 +11,17 @@ defmodule OpenCode.Generated.SessionMessageAssistant do
             | OpenCode.Generated.SessionMessageAssistantTool.t()
           ],
           cost: number | nil,
-          error: OpenCode.Generated.SessionErrorUnknown.t() | nil,
+          error: OpenCode.Generated.SessionStructuredError.t() | nil,
           finish: String.t() | nil,
           id: String.t(),
           metadata: map | nil,
           model: OpenCode.Generated.ModelRef.t(),
+          provider_state: map | nil,
+          raw_finish: String.t() | nil,
+          retry: OpenCode.Generated.SessionMessageAssistantRetry.t() | nil,
           snapshot: OpenCode.Generated.SessionMessageAssistantSnapshot.t() | nil,
           time: OpenCode.Generated.SessionMessageAssistantTime.t(),
-          tokens: OpenCode.Generated.SessionMessageAssistantTokens.t() | nil,
+          tokens: OpenCode.Generated.TokenUsageInfo.t() | nil,
           type: String.t()
         }
 
@@ -31,6 +34,9 @@ defmodule OpenCode.Generated.SessionMessageAssistant do
     :id,
     :metadata,
     :model,
+    :provider_state,
+    :raw_finish,
+    :retry,
     :snapshot,
     :time,
     :tokens,
@@ -52,14 +58,17 @@ defmodule OpenCode.Generated.SessionMessageAssistant do
         ]
       ],
       cost: :number,
-      error: {OpenCode.Generated.SessionErrorUnknown, :t},
-      finish: :string,
+      error: {OpenCode.Generated.SessionStructuredError, :t},
+      finish: {:enum, ["stop", "length", "tool-calls", "content-filter", "error", "unknown"]},
       id: :string,
       metadata: :map,
       model: {OpenCode.Generated.ModelRef, :t},
+      provider_state: :map,
+      raw_finish: :string,
+      retry: {OpenCode.Generated.SessionMessageAssistantRetry, :t},
       snapshot: {OpenCode.Generated.SessionMessageAssistantSnapshot, :t},
       time: {OpenCode.Generated.SessionMessageAssistantTime, :t},
-      tokens: {OpenCode.Generated.SessionMessageAssistantTokens, :t},
+      tokens: {OpenCode.Generated.TokenUsageInfo, :t},
       type: {:const, "assistant"}
     ]
   end

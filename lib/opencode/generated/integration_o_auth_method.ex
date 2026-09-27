@@ -4,18 +4,22 @@ defmodule OpenCode.Generated.IntegrationOAuthMethod do
   """
 
   @type t :: %__MODULE__{
-          id: String.t(),
-          label: String.t(),
-          prompts:
+          form:
             [
-              OpenCode.Generated.IntegrationSelectPrompt.t()
-              | OpenCode.Generated.IntegrationTextPrompt.t()
+              OpenCode.Generated.FormBooleanField.t()
+              | OpenCode.Generated.FormExternalField.t()
+              | OpenCode.Generated.FormIntegerField.t()
+              | OpenCode.Generated.FormMultiselectField.t()
+              | OpenCode.Generated.FormNumberField.t()
+              | OpenCode.Generated.FormStringField.t()
             ]
             | nil,
+          id: String.t(),
+          label: String.t(),
           type: String.t()
         }
 
-  defstruct [:id, :label, :prompts, :type]
+  defstruct [:form, :id, :label, :type]
 
   @doc false
   @spec __fields__(atom) :: keyword
@@ -23,14 +27,18 @@ defmodule OpenCode.Generated.IntegrationOAuthMethod do
 
   def __fields__(:t) do
     [
-      id: :string,
-      label: :string,
-      prompts: [
+      form: [
         union: [
-          {OpenCode.Generated.IntegrationSelectPrompt, :t},
-          {OpenCode.Generated.IntegrationTextPrompt, :t}
+          {OpenCode.Generated.FormBooleanField, :t},
+          {OpenCode.Generated.FormExternalField, :t},
+          {OpenCode.Generated.FormIntegerField, :t},
+          {OpenCode.Generated.FormMultiselectField, :t},
+          {OpenCode.Generated.FormNumberField, :t},
+          {OpenCode.Generated.FormStringField, :t}
         ]
       ],
+      id: :string,
+      label: :string,
       type: {:const, "oauth"}
     ]
   end

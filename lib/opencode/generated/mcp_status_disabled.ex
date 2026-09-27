@@ -1,6 +1,6 @@
-defmodule OpenCode.Generated.MCPStatusDisabled do
+defmodule OpenCode.Generated.McpStatusDisabled do
   @moduledoc """
-  Provides struct and type for a MCPStatusDisabled
+  Provides struct and type for a McpStatusDisabled
   """
 
   @type t :: %__MODULE__{status: String.t()}

@@ -12,6 +12,6 @@ defmodule OpenCode.Generated.SessionMessagesResponseCursor do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [next: :string, previous: :string]
+    [next: {:union, [:string, :null]}, previous: {:union, [:string, :null]}]
   end
 end

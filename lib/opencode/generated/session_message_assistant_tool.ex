@@ -4,19 +4,21 @@ defmodule OpenCode.Generated.SessionMessageAssistantTool do
   """
 
   @type t :: %__MODULE__{
+          executed: boolean | nil,
           id: String.t(),
           name: String.t(),
-          provider: OpenCode.Generated.SessionMessageAssistantToolProvider.t() | nil,
+          provider_result_state: map | nil,
+          provider_state: map | nil,
           state:
             OpenCode.Generated.SessionMessageToolStateCompleted.t()
             | OpenCode.Generated.SessionMessageToolStateError.t()
-            | OpenCode.Generated.SessionMessageToolStatePending.t()
-            | OpenCode.Generated.SessionMessageToolStateRunning.t(),
+            | OpenCode.Generated.SessionMessageToolStateRunning.t()
+            | OpenCode.Generated.SessionMessageToolStateStreaming.t(),
           time: OpenCode.Generated.SessionMessageAssistantToolTime.t(),
           type: String.t()
         }
 
-  defstruct [:id, :name, :provider, :state, :time, :type]
+  defstruct [:executed, :id, :name, :provider_result_state, :provider_state, :state, :time, :type]
 
   @doc false
   @spec __fields__(atom) :: keyword
@@ -24,16 +26,18 @@ defmodule OpenCode.Generated.SessionMessageAssistantTool do
 
   def __fields__(:t) do
     [
+      executed: :boolean,
       id: :string,
       name: :string,
-      provider: {OpenCode.Generated.SessionMessageAssistantToolProvider, :t},
+      provider_result_state: :map,
+      provider_state: :map,
       state:
         {:union,
          [
            {OpenCode.Generated.SessionMessageToolStateCompleted, :t},
            {OpenCode.Generated.SessionMessageToolStateError, :t},
-           {OpenCode.Generated.SessionMessageToolStatePending, :t},
-           {OpenCode.Generated.SessionMessageToolStateRunning, :t}
+           {OpenCode.Generated.SessionMessageToolStateRunning, :t},
+           {OpenCode.Generated.SessionMessageToolStateStreaming, :t}
          ]},
       time: {OpenCode.Generated.SessionMessageAssistantToolTime, :t},
       type: {:const, "tool"}

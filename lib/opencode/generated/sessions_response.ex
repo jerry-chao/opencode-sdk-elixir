@@ -5,7 +5,7 @@ defmodule OpenCode.Generated.SessionsResponse do
 
   @type t :: %__MODULE__{
           cursor: OpenCode.Generated.SessionsResponseCursor.t(),
-          data: [OpenCode.Generated.SessionV2Info.t()]
+          data: [OpenCode.Generated.SessionInfo.t()]
         }
 
   defstruct [:cursor, :data]
@@ -17,7 +17,7 @@ defmodule OpenCode.Generated.SessionsResponse do
   def __fields__(:t) do
     [
       cursor: {OpenCode.Generated.SessionsResponseCursor, :t},
-      data: [{OpenCode.Generated.SessionV2Info, :t}]
+      data: [{OpenCode.Generated.SessionInfo, :t}]
     ]
   end
 end

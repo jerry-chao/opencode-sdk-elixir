@@ -4,16 +4,17 @@ defmodule OpenCode.Generated.PermissionRequest do
   """
 
   @type t :: %__MODULE__{
-          always: [String.t()],
+          action: String.t(),
           id: String.t(),
-          metadata: map,
-          patterns: [String.t()],
-          permission: String.t(),
+          message: String.t() | nil,
+          metadata: map | nil,
+          resources: [String.t()],
+          save: [String.t()] | nil,
           session_id: String.t(),
-          tool: OpenCode.Generated.PermissionRequestTool.t() | nil
+          source: map | nil
         }
 
-  defstruct [:always, :id, :metadata, :patterns, :permission, :session_id, :tool]
+  defstruct [:action, :id, :message, :metadata, :resources, :save, :session_id, :source]
 
   @doc false
   @spec __fields__(atom) :: keyword
@@ -21,13 +22,14 @@ defmodule OpenCode.Generated.PermissionRequest do
 
   def __fields__(:t) do
     [
-      always: [:string],
+      action: :string,
       id: :string,
+      message: :string,
       metadata: :map,
-      patterns: [:string],
-      permission: :string,
+      resources: [:string],
+      save: [:string],
       session_id: :string,
-      tool: {OpenCode.Generated.PermissionRequestTool, :t}
+      source: :map
     ]
   end
 end

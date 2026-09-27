@@ -3,15 +3,21 @@ defmodule OpenCode.Generated.WorktreeCreateInput do
   Provides struct and type for a WorktreeCreateInput
   """
 
-  @type t :: %__MODULE__{name: String.t() | nil, start_command: String.t() | nil}
+  @type t :: %__MODULE__{
+          branch: String.t() | nil,
+          directory: String.t() | nil,
+          from: String.t() | nil,
+          name: String.t() | nil,
+          project_id: String.t()
+        }
 
-  defstruct [:name, :start_command]
+  defstruct [:branch, :directory, :from, :name, :project_id]
 
   @doc false
   @spec __fields__(atom) :: keyword
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [name: :string, start_command: :string]
+    [branch: :string, directory: :string, from: :string, name: :string, project_id: :string]
   end
 end

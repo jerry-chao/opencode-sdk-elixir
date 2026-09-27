@@ -4,16 +4,18 @@ defmodule OpenCode.Generated.SessionMessageShell do
   """
 
   @type t :: %__MODULE__{
-          call_id: String.t(),
           command: String.t(),
+          exit: number | String.t() | nil,
           id: String.t(),
           metadata: map | nil,
-          output: String.t(),
+          output: OpenCode.Generated.SessionMessageShellOutput.t() | nil,
+          shell_id: String.t(),
+          status: String.t(),
           time: OpenCode.Generated.SessionMessageShellTime.t(),
           type: String.t()
         }
 
-  defstruct [:call_id, :command, :id, :metadata, :output, :time, :type]
+  defstruct [:command, :exit, :id, :metadata, :output, :shell_id, :status, :time, :type]
 
   @doc false
   @spec __fields__(atom) :: keyword
@@ -21,11 +23,13 @@ defmodule OpenCode.Generated.SessionMessageShell do
 
   def __fields__(:t) do
     [
-      call_id: :string,
       command: :string,
+      exit: {:union, [:number, enum: ["Infinity", "-Infinity", "NaN"]]},
       id: :string,
       metadata: :map,
-      output: :string,
+      output: {OpenCode.Generated.SessionMessageShellOutput, :t},
+      shell_id: :string,
+      status: {:enum, ["running", "exited", "timeout", "killed"]},
       time: {OpenCode.Generated.SessionMessageShellTime, :t},
       type: {:const, "shell"}
     ]

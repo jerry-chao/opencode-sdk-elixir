@@ -6,11 +6,14 @@ defmodule OpenCode.Generated.SessionMessagesResponse do
   @type t :: %__MODULE__{
           cursor: OpenCode.Generated.SessionMessagesResponseCursor.t(),
           data: [
-            OpenCode.Generated.SessionMessageAgentSwitched.t()
+            map
+            | OpenCode.Generated.SessionMessageAgentSelected.t()
             | OpenCode.Generated.SessionMessageAssistant.t()
-            | OpenCode.Generated.SessionMessageCompaction.t()
-            | OpenCode.Generated.SessionMessageModelSwitched.t()
+            | OpenCode.Generated.SessionMessageIdle.t()
+            | OpenCode.Generated.SessionMessageLocationSwitched.t()
+            | OpenCode.Generated.SessionMessageModelSelected.t()
             | OpenCode.Generated.SessionMessageShell.t()
+            | OpenCode.Generated.SessionMessageSkill.t()
             | OpenCode.Generated.SessionMessageSynthetic.t()
             | OpenCode.Generated.SessionMessageSystem.t()
             | OpenCode.Generated.SessionMessageUser.t()
@@ -28,11 +31,14 @@ defmodule OpenCode.Generated.SessionMessagesResponse do
       cursor: {OpenCode.Generated.SessionMessagesResponseCursor, :t},
       data: [
         union: [
-          {OpenCode.Generated.SessionMessageAgentSwitched, :t},
+          :map,
+          {OpenCode.Generated.SessionMessageAgentSelected, :t},
           {OpenCode.Generated.SessionMessageAssistant, :t},
-          {OpenCode.Generated.SessionMessageCompaction, :t},
-          {OpenCode.Generated.SessionMessageModelSwitched, :t},
+          {OpenCode.Generated.SessionMessageIdle, :t},
+          {OpenCode.Generated.SessionMessageLocationSwitched, :t},
+          {OpenCode.Generated.SessionMessageModelSelected, :t},
           {OpenCode.Generated.SessionMessageShell, :t},
+          {OpenCode.Generated.SessionMessageSkill, :t},
           {OpenCode.Generated.SessionMessageSynthetic, :t},
           {OpenCode.Generated.SessionMessageSystem, :t},
           {OpenCode.Generated.SessionMessageUser, :t}

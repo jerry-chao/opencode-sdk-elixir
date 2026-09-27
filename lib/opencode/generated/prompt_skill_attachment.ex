@@ -1,0 +1,22 @@
+defmodule OpenCode.Generated.PromptSkillAttachment do
+  @moduledoc """
+  Provides struct and type for a PromptSkillAttachment
+  """
+
+  @type t :: %__MODULE__{
+          id: String.t(),
+          mention: OpenCode.Generated.PromptMention.t() | nil,
+          name: String.t(),
+          text: String.t() | nil
+        }
+
+  defstruct [:id, :mention, :name, :text]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(type \\ :t)
+
+  def __fields__(:t) do
+    [id: :string, mention: {OpenCode.Generated.PromptMention, :t}, name: :string, text: :string]
+  end
+end

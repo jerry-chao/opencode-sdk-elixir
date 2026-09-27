@@ -1,0 +1,17 @@
+defmodule OpenCode.Generated.RpcErrorEncoded do
+  @moduledoc """
+  Provides struct and type for a RpcErrorEncoded
+  """
+
+  @type t :: %__MODULE__{data: map | nil, message: String.t(), tag: String.t(), type: String.t()}
+
+  defstruct [:data, :message, :tag, :type]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(type \\ :t)
+
+  def __fields__(:t) do
+    [data: {:union, [:map, :null]}, message: :string, tag: {:const, "RpcError"}, type: :string]
+  end
+end

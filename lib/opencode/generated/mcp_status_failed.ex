@@ -1,6 +1,6 @@
-defmodule OpenCode.Generated.MCPStatusFailed do
+defmodule OpenCode.Generated.McpStatusFailed do
   @moduledoc """
-  Provides struct and type for a MCPStatusFailed
+  Provides struct and type for a McpStatusFailed
   """
 
   @type t :: %__MODULE__{error: String.t(), status: String.t()}

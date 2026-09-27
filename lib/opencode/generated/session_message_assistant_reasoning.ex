@@ -4,14 +4,13 @@ defmodule OpenCode.Generated.SessionMessageAssistantReasoning do
   """
 
   @type t :: %__MODULE__{
-          id: String.t(),
-          provider_metadata: map | nil,
+          state: map | nil,
           text: String.t(),
           time: OpenCode.Generated.SessionMessageAssistantReasoningTime.t() | nil,
           type: String.t()
         }
 
-  defstruct [:id, :provider_metadata, :text, :time, :type]
+  defstruct [:state, :text, :time, :type]
 
   @doc false
   @spec __fields__(atom) :: keyword
@@ -19,8 +18,7 @@ defmodule OpenCode.Generated.SessionMessageAssistantReasoning do
 
   def __fields__(:t) do
     [
-      id: :string,
-      provider_metadata: :map,
+      state: :map,
       text: :string,
       time: {OpenCode.Generated.SessionMessageAssistantReasoningTime, :t},
       type: {:const, "reasoning"}

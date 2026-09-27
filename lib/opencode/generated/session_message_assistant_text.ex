@@ -3,15 +3,15 @@ defmodule OpenCode.Generated.SessionMessageAssistantText do
   Provides struct and type for a SessionMessageAssistantText
   """
 
-  @type t :: %__MODULE__{id: String.t(), text: String.t(), type: String.t()}
+  @type t :: %__MODULE__{state: map | nil, text: String.t(), type: String.t()}
 
-  defstruct [:id, :text, :type]
+  defstruct [:state, :text, :type]
 
   @doc false
   @spec __fields__(atom) :: keyword
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [id: :string, text: :string, type: {:const, "text"}]
+    [state: :map, text: :string, type: {:const, "text"}]
   end
 end

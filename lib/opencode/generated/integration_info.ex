@@ -9,15 +9,17 @@ defmodule OpenCode.Generated.IntegrationInfo do
             | OpenCode.Generated.ConnectionEnvInfo.t()
           ],
           id: String.t(),
+          metadata: map | nil,
           methods: [
-            OpenCode.Generated.IntegrationEnvMethod.t()
+            OpenCode.Generated.IntegrationCommandMethod.t()
+            | OpenCode.Generated.IntegrationEnvMethod.t()
             | OpenCode.Generated.IntegrationKeyMethod.t()
             | OpenCode.Generated.IntegrationOAuthMethod.t()
           ],
           name: String.t()
         }
 
-  defstruct [:connections, :id, :methods, :name]
+  defstruct [:connections, :id, :metadata, :methods, :name]
 
   @doc false
   @spec __fields__(atom) :: keyword
@@ -32,8 +34,10 @@ defmodule OpenCode.Generated.IntegrationInfo do
         ]
       ],
       id: :string,
+      metadata: :map,
       methods: [
         union: [
+          {OpenCode.Generated.IntegrationCommandMethod, :t},
           {OpenCode.Generated.IntegrationEnvMethod, :t},
           {OpenCode.Generated.IntegrationKeyMethod, :t},
           {OpenCode.Generated.IntegrationOAuthMethod, :t}
